@@ -7,8 +7,13 @@ package emprego.listausuarios;
 
 import emprego.model.Profissional;
 import emprego.model.Usuario;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -65,5 +70,20 @@ public class ListaUsuarios implements InterfaceUsuarios{
 
         return null;
     }
-    
+     public boolean escreverArquivo() {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + System.getProperty("file.separator") +"listadeusuarios"+ ".csv"));
+
+            for (Usuario user : listausuarios) {
+                bw.write(user.writeFile());
+            }
+
+            bw.close();
+
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(ListaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 }

@@ -153,5 +153,30 @@ public class Usuario {
     public int getIdUsuario() {
         return idUsuario;
     }
-    
+    public Usuario(String nome, String email, String senha){
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.celular = 0;
+        this.telefone = 0;
+        this.cpf = 0;
+        this.data_Nascimento = 0;
+        this.perguntaSecreta = "teste";
+        this.resposta = "teste";
+        this.idUsuario = 0;
+    }
+    public Usuario(){
+        
+    }
+    public String writeFile() {
+                                    String writeFile = getNome()+";"+getEmail()+";"+getSenha()+";"+
+                                    getCelular()+";"+getTelefone()+";"+getCpf()+";"+
+                                    getData_Nascimento()+";"+getPerguntaSecreta()+";"+getResposta()+";"+getIdUsuario()+";\n";
+        
+        return writeFile;
+    }
+
+    public String ToString() {
+        return "Nome: "+getNome()+" Email: "+getEmail()+" CPF: "+getCpf()+" Senha: "+getSenha()+" Celular: "+getCelular()+" Telefone: "+getTelefone()+" Pergunta: "+getPerguntaSecreta()+" Resposta: "+getResposta()+ "Id do Usuário : "+getIdUsuario()+" Data de Nascimento: "+getData_Nascimento();
+    }
 }

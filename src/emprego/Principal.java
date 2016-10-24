@@ -5,7 +5,9 @@
  */
 package emprego;
 
-import emprego.frames.Login;
+import emprego.view.Login;
+
+
 
 /**
  *

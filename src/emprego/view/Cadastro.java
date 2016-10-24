@@ -205,6 +205,21 @@ public class Cadastro extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void soNumeros(java.awt.event.KeyEvent evt, boolean isDouble) {
+        char ch = evt.getKeyChar();
+        if (isDouble) {
+            if (Character.isDigit(ch) || ch == '.') {
+
+            } else {
+                evt.consume();
+            }
+        } else if (Character.isDigit(ch)) {
+
+        } else {
+            evt.consume();
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCompletarCadastro;

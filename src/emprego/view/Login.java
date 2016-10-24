@@ -7,6 +7,7 @@ package emprego.view;
 
 import emprego.listausuarios.ListaUsuarios;
 import emprego.model.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -17,7 +18,7 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
     
 private ListaUsuarios listausuarios;
-    private List<Usuario> usuario;
+  List<Usuario> listadeusuarios = new ArrayList<>();
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -227,11 +228,16 @@ private ListaUsuarios listausuarios;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCriarContaActionPerformed
-    Usuario novoUsuario = new Usuario();
-    novoUsuario.setNome(jTextFieldInicioNome.getText());
-    novoUsuario.setEmail(jTextFieldInicioEmail.getText());
-    novoUsuario.setSenha(jTextFieldInicioSenha.getText());
-    if(listausuarios.incluirUsuario(novoUsuario)){
+    
+    String nome = jTextFieldInicioNome.getText();
+    String email = jTextFieldInicioEmail.getText();
+    String senha = jTextFieldInicioSenha.getText();
+    Usuario teste = new Usuario(nome, email, senha);
+    
+        System.out.println(teste.ToString());
+        listausuarios.incluirUsuario(teste);
+    listausuarios.escreverArquivo();
+    if(listausuarios.incluirUsuario(teste)){
         JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso. Faça login ao lado.");
         limparCamposCadastro();
     }else{
@@ -241,10 +247,23 @@ private ListaUsuarios listausuarios;
     }//GEN-LAST:event_jButtonCriarContaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       Usuario teste = new Usuario();
+       int auxiliar = 0;
+        Usuario teste = new Usuario();
        teste.setEmail(jTextFieldLoginEmail.getText());
        teste.setSenha(jPasswordFieldLoginSenha.getText());
-       if(teste.getEmail() == listausuarios.)
+       for (int i = 0; i < listadeusuarios.size(); i++){
+           if(teste.getEmail() == listadeusuarios.get(i).getEmail() || teste.getSenha() == listadeusuarios.get(i).getSenha()){
+             auxiliar = 1;
+           }else {
+               auxiliar = auxiliar + 1;
+           }
+       } if(auxiliar != 1){
+           JOptionPane.showMessageDialog(null,"Email ou senha inválidos, tente novamente.");
+       }else{
+           Inicio inicio = new Inicio();
+             inicio.setVisible(true);
+             this.dispose();
+       }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabelCliqueAquiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCliqueAquiMouseClicked
