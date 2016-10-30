@@ -5,27 +5,34 @@
  */
 package emprego.view;
 
+import emprego.Banco;
 import emprego.listausuarios.ListaUsuarios;
 import emprego.model.Usuario;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author gcamargo
  */
 public class Login extends javax.swing.JFrame {
-    
-private ListaUsuarios listausuarios;
-  List<Usuario> listadeusuarios = new ArrayList<>();
+
+    private ListaUsuarios listausuarios;
+    List<Usuario> listadeusuarios = new ArrayList<>();
+
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Os melhores ao seu dispor.");
-        
-    }
 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -228,42 +235,38 @@ private ListaUsuarios listausuarios;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCriarContaActionPerformed
-    
-    String nome = jTextFieldInicioNome.getText();
-    String email = jTextFieldInicioEmail.getText();
-    String senha = jTextFieldInicioSenha.getText();
-    Usuario teste = new Usuario(nome, email, senha);
-    
-        System.out.println(teste.ToString());
-        listausuarios.incluirUsuario(teste);
-    listausuarios.escreverArquivo();
-    if(listausuarios.incluirUsuario(teste)){
-        JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso. Faça login ao lado.");
-        limparCamposCadastro();
-    }else{
-        JOptionPane.showMessageDialog(null,"Não foi possível realizar seu cadastro no momento. Por favor tente novamente!");
-        limparCamposCadastro();
-    }
+        try {
+            Banco cadastro = new Banco();
+            String nome = jTextFieldInicioNome.getText();
+            String email = jTextFieldInicioEmail.getText();
+            String senha = jTextFieldInicioSenha.getText();
+            if (cadastro.Cadastro(nome, email, senha)) {
+                JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso.");
+                limparCamposCadastro();
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível concluir teu cadastro.");
+                limparCamposCadastro();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }//GEN-LAST:event_jButtonCriarContaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       int auxiliar = 0;
-        Usuario teste = new Usuario();
-       teste.setEmail(jTextFieldLoginEmail.getText());
-       teste.setSenha(jPasswordFieldLoginSenha.getText());
-       for (int i = 0; i < listadeusuarios.size(); i++){
-           if(teste.getEmail() == listadeusuarios.get(i).getEmail() || teste.getSenha() == listadeusuarios.get(i).getSenha()){
-             auxiliar = 1;
-           }else {
-               auxiliar = auxiliar + 1;
-           }
-       } if(auxiliar != 1){
-           JOptionPane.showMessageDialog(null,"Email ou senha inválidos, tente novamente.");
-       }else{
-           Inicio inicio = new Inicio();
-             inicio.setVisible(true);
-             this.dispose();
-       }
+        Banco login = new Banco();
+        String email = jTextFieldLoginEmail.getText();
+        String senha = jPasswordFieldLoginSenha.getText();
+        if (email.equals("") || senha.equals("")) {
+            JOptionPane.showMessageDialog(null, "Preencha os campos para logar no sistema.");
+        } else if (login.Login(email, senha)) {
+            Inicio inicio = new Inicio();
+            inicio.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Login ou senha inválidos tente novamente.");
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jLabelCliqueAquiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCliqueAquiMouseClicked
@@ -306,7 +309,8 @@ private ListaUsuarios listausuarios;
             }
         });
     }
-    public void limparCamposCadastro(){
+
+    public void limparCamposCadastro() {
         jTextFieldInicioNome.setText("");
         jTextFieldInicioEmail.setText("");
         jTextFieldInicioSenha.setText("");

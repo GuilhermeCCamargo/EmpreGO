@@ -5,11 +5,59 @@
  */
 package emprego.model;
 
+import java.sql.Date;
+
 /**
  *
  * @author gcamargo
  */
 public class Usuario {
+
+    public Usuario(int id, String lastName, String firstName, String email) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the dataregistro
+     */
+    public Date getDataregistro() {
+        return dataregistro;
+    }
+
+    /**
+     * @param dataregistro the dataregistro to set
+     */
+    public void setDataregistro(Date dataregistro) {
+        this.dataregistro = dataregistro;
+    }
+
+    /**
+     * @return the ultimologin
+     */
+    public Date getUltimologin() {
+        return ultimologin;
+    }
+
+    /**
+     * @param ultimologin the ultimologin to set
+     */
+    public void setUltimologin(Date ultimologin) {
+        this.ultimologin = ultimologin;
+    }
+
+    /**
+     * @return the completo
+     */
+    public int getCompleto() {
+        return completo;
+    }
+
+    /**
+     * @param completo the completo to set
+     */
+    public void setCompleto(int completo) {
+        this.completo = completo;
+    }
     
     private String nome;
     private String email;
@@ -18,9 +66,13 @@ public class Usuario {
     private int celular;
     private String perguntaSecreta;
     private String resposta;
-    private int data_Nascimento;
+    private String data_Nascimento;
     private int cpf;
     private int idUsuario;
+    private int completo;
+    private Date dataregistro;
+    private Date ultimologin;
+    
     /**
      * @return the nome
      */
@@ -66,14 +118,14 @@ public class Usuario {
     /**
      * @return the data_nascimento
      */
-    public int getData_Nascimento() {
+    public String getData_Nascimento() {
         return data_Nascimento;
     }
 
     /**
      * @param data_nascimento the data_nascimento to set
      */
-    public void setData_nascimento(int data_nascimento) {
+    public void setData_nascimento(String data_nascimento) {
         this.data_Nascimento = data_nascimento;
     }
 
@@ -160,7 +212,7 @@ public class Usuario {
         this.celular = 0;
         this.telefone = 0;
         this.cpf = 0;
-        this.data_Nascimento = 0;
+        this.data_Nascimento = "0/0/";
         this.perguntaSecreta = "teste";
         this.resposta = "teste";
         this.idUsuario = 0;
@@ -178,5 +230,15 @@ public class Usuario {
 
     public String ToString() {
         return "Nome: "+getNome()+" Email: "+getEmail()+" CPF: "+getCpf()+" Senha: "+getSenha()+" Celular: "+getCelular()+" Telefone: "+getTelefone()+" Pergunta: "+getPerguntaSecreta()+" Resposta: "+getResposta()+ "Id do Usuário : "+getIdUsuario()+" Data de Nascimento: "+getData_Nascimento();
+    }
+
+     public String toString() {
+        return "Código: "+getIdUsuario()+" Nome: "+getNome()+" Data de Nascimento: "+getData_Nascimento()+" Email: "+getEmail()+"Data de Registro: "+getDataregistro()+" Ultimo Login: "+getUltimologin()+" Senha: "+getSenha()+" Completo: "+getCompleto();
+    }
+    /**
+     * @param idUsuario the idUsuario to set
+     */
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }
