@@ -91,6 +91,12 @@ public class Cadastro extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldCadastroTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldCadastroTelefoneKeyTyped(evt);
+            }
+        });
+
         jLabelCompletarCadastro.setText("Complete seu Cadastro");
 
         jCheckBoxSolicitacoes.setText("Desejo estar disponível para contratação");
@@ -204,31 +210,45 @@ public class Cadastro extends javax.swing.JFrame {
 
     private void jButtonCompletarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompletarCadastroActionPerformed
 
-        try {
-            String nome = jTextFieldCadastroNome.getText();
+         String nome = jTextFieldCadastroNome.getText();
             String dataNascimento = jTextFieldDataNascimento.getText();
             String email = jTextFieldCadastroEmail.getText();
             String endereco = jTextFieldCadastroEndereco.getText();
             int telefone = Integer.valueOf(jTextFieldCadastroTelefone.getText());
             String profissao = jTextFieldCadastroProfissao.getText();
             String experiencia = jTextAreaCadastroExperienciaDescricao.getText();
+        try {
+           
             Banco completar = new Banco();
-            if (completar.completarCadastro(nome, dataNascimento, email, endereco, telefone)) {
-                JOptionPane.showMessageDialog(null, "Parabéns,Você completou seu perfil.");
-                Banco.completarUsuario = false;
-                Inicio voltar = new Inicio();
-                voltar.setVisible(true);
-                this.dispose();
+            if (Banco.isUsuario == true) {
+                try {
+                    completar.completarCadastro(nome, dataNascimento, email, endereco, telefone);
+                    JOptionPane.showMessageDialog(null, "Parabéns,Você completou seu perfil.");
+                    Banco.completarUsuario = false;
+                    Inicio voltar = new Inicio();
+                    voltar.setVisible(true);
+                    this.dispose();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível concluir seu perfil, verifique sua conexão com o banco de dados e tente novamente mais tarde.");
-                Inicio voltar = new Inicio();
-                voltar.setVisible(true);
-                this.dispose();
+                try {
+                    completar.completarCadastro(nome, dataNascimento, email, endereco, telefone);
+                    completar.completarCadastroProfissional(experiencia, profissao);
+                    JOptionPane.showMessageDialog(null, "Parabéns,Você completou seu perfil.");
+                    Banco.completarUsuario = false;
+                    Inicio voltar = new Inicio();
+                    voltar.setVisible(true);
+                    this.dispose();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }//GEN-LAST:event_jButtonCompletarCadastroActionPerformed
 
     private void jCheckBoxSolicitacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSolicitacoesActionPerformed
@@ -253,6 +273,10 @@ public class Cadastro extends javax.swing.JFrame {
         jLabelCadastroExperienciaDescricao.setEnabled(false);
         jTextFieldCadastroProfissao.setEnabled(false);
     }//GEN-LAST:event_formComponentShown
+
+    private void jTextFieldCadastroTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCadastroTelefoneKeyTyped
+        soNumeros(evt,false);
+    }//GEN-LAST:event_jTextFieldCadastroTelefoneKeyTyped
 
     /**
      * @param args the command line arguments

@@ -65,7 +65,7 @@ public class Usuario {
     private int telefone;
     private String endereco;
     private String data_Nascimento;
-
+    private int isUsuario;
     private int idUsuario;
     private int completo;
     private Date dataregistro;
@@ -162,7 +162,7 @@ public class Usuario {
     }
 
     public String toString() {
-        return "Nome: " + getNome() + "  Email: " + getEmail() + "  Data de Registro: " + getDataregistro();
+        return getIdUsuario()+" - "+"Nome: " + getNome() + " - "+"Email: " + getEmail() + " - "+"Data de Registro: " + getDataregistro();
     }
 
     /**
@@ -184,5 +184,19 @@ public class Usuario {
      */
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    /**
+     * @return the isUsuario
+     */
+    public int getIsUsuario() {
+        return isUsuario;
+    }
+
+    /**
+     * @param isUsuario the isUsuario to set
+     */
+    public void setIsUsuario(int isUsuario) {
+        this.isUsuario = isUsuario;
     }
 }

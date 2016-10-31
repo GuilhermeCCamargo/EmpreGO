@@ -244,7 +244,7 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso.");
                 limparCamposCadastro();
             } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível concluir teu cadastro.");
+                JOptionPane.showMessageDialog(null, "Não foi possível concluir teu cadastro. Verifiuqe tua conexão com o banco e tente novamente.");
                 limparCamposCadastro();
             }
         } catch (ClassNotFoundException ex) {

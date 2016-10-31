@@ -6,6 +6,7 @@
 package emprego.view;
 
 import emprego.Banco;
+import emprego.model.Profissional;
 import emprego.model.Usuario;
 import java.awt.Color;
 import java.sql.Connection;
@@ -25,7 +26,7 @@ import javax.swing.border.CompoundBorder;
  * @author gcamargo
  */
 public class Inicio extends javax.swing.JFrame {
-
+    List<Profissional> listadeprofissionais = new ArrayList<>();
     List<Usuario> listaUsuarios = new ArrayList<>();
 
     /**
@@ -36,6 +37,7 @@ public class Inicio extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Início");
         jMenuCompletarCadastro.setBorderPainted(false);
+        
     }
 
     /**
@@ -394,13 +396,13 @@ public class Inicio extends javax.swing.JFrame {
             Banco completar = new Banco();
             if (Banco.isUsuario == true) {
                 perfil.completarUsuario(completar.montarUsuario());
-                perfil.verifica();
+                
                 
                 perfil.setVisible(true);
                 this.dispose();
             } else {
                 perfil.completar(completar.montarUsuario(), completar.montarProfissional());
-               perfil.verifica();
+               
                 perfil.setVisible(true);
                 this.dispose();
             }
@@ -410,11 +412,20 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemVisualizarActionPerformed
 
     private void jListEventosRecentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListEventosRecentesMouseClicked
-        if (!javax.swing.SwingUtilities.isRightMouseButton(evt) && !javax.swing.SwingUtilities.isMiddleMouseButton(evt)) {//javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
+        if (!javax.swing.SwingUtilities.isRightMouseButton(evt) && !javax.swing.SwingUtilities.isMiddleMouseButton(evt)) {try {
+            //javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
             String Profissional = jListEventosRecentes.getSelectedValue();
             int escolha = Integer.valueOf(JOptionPane.showInputDialog("Selecione uma opção:\n1- Visualizar Perfil\n2- Solicitar serviço\n0- Cancelar"));
             switch (escolha) {
                 case 1:
+                    int codigo = getCod(Profissional);
+                    Banco ajuda = new Banco();
+                    Perfil visualizar = new Perfil();
+                    Usuario auxiliar = listaUsuarios.get(codigo);
+                    listadeprofissionais = ajuda.listaprofissionais();
+                    visualizar.completar(auxiliar, ajuda.procuraProfissional(listadeprofissionais, codigo));
+                    visualizar.setVisible(true);
+                    this.dispose();
                     break;
                 case 2:
                     break;
@@ -423,6 +434,11 @@ public class Inicio extends javax.swing.JFrame {
                 default:
                     JOptionPane.showMessageDialog(null, "Digite uma opção válida.");
                     break;
+            }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -482,6 +498,18 @@ public class Inicio extends javax.swing.JFrame {
                 new Inicio().setVisible(true);
             }
         });
+    }
+    private int getCod(String cod) {
+        int end = 0;
+        for (int i = 0; i < cod.length(); i++) {
+            if (cod.charAt(i) == '-') {
+                end = i - 1;
+                break;
+            }
+        }
+
+        cod = cod.substring(0, end);
+        return Integer.parseInt(cod);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

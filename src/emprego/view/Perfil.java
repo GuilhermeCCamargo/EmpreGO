@@ -239,13 +239,47 @@ public class Perfil extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuVoltarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
-        Inicio voltar = new Inicio();
+        Inicio voltar = new Inicio();      
         voltar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        // TODO add your handling code here:
+        if (Banco.isUsuario == true) {            
+            jTextFieldPerfilNome.setEditable(false);
+            jTextFieldDataNascimento.setEditable(false);
+            jTextFieldPerfilEmail.setEditable(false);
+            jTextFieldPerfilEndereco.setEditable(false);
+            jTextFieldPerfilTelefone.setEditable(false);
+            jTextFieldPerfilProfissao.setEditable(false);
+            jTextAreaPerfilExperienciaDescricao.setEditable(false);
+            jTextFieldPerfilProfissao.setEnabled(false);
+            jTextAreaPerfilExperienciaDescricao.setEnabled(false);
+            jLabelPerfilProfissao.setEnabled(false);
+            jLabelPerfilExperienciaDescricao.setEnabled(false);
+            jTextFieldPerfilProfissao.setVisible(false);
+            jTextAreaPerfilExperienciaDescricao.setVisible(false);
+            jLabelPerfilProfissao.setVisible(false);
+            jLabelPerfilExperienciaDescricao.setVisible(false);
+            jButtonPerfilSalvar.setVisible(false);
+        } else {
+            jTextFieldPerfilNome.setEditable(false);
+            jTextFieldDataNascimento.setEditable(false);
+            jTextFieldPerfilEmail.setEditable(false);
+            jTextFieldPerfilEndereco.setEditable(false);
+            jTextFieldPerfilTelefone.setEditable(false);
+            jTextFieldPerfilProfissao.setEditable(false);
+            jTextAreaPerfilExperienciaDescricao.setEditable(false);
+            jTextFieldPerfilProfissao.setEnabled(true);
+            jTextAreaPerfilExperienciaDescricao.setEnabled(true);
+            jLabelPerfilProfissao.setEnabled(true);
+            jLabelPerfilExperienciaDescricao.setEnabled(true);
+            jTextFieldPerfilProfissao.setVisible(true);
+            jTextAreaPerfilExperienciaDescricao.setVisible(true);
+            jLabelPerfilProfissao.setVisible(true);
+            jLabelPerfilExperienciaDescricao.setVisible(true);
+            jButtonPerfilSalvar.setVisible(false);
+        }
     }//GEN-LAST:event_formComponentShown
 
     /**
@@ -302,44 +336,7 @@ public class Perfil extends javax.swing.JFrame {
         jTextFieldDataNascimento.setText(usuario.getData_Nascimento());
         
     }
-    
-    public void verifica() {
-        if (Banco.isUsuario == true) {            
-            jTextFieldPerfilNome.setEditable(false);
-            jTextFieldDataNascimento.setEditable(false);
-            jTextFieldPerfilEmail.setEditable(false);
-            jTextFieldPerfilEndereco.setEditable(false);
-            jTextFieldPerfilTelefone.setEditable(false);
-            jTextFieldPerfilProfissao.setEditable(false);
-            jTextAreaPerfilExperienciaDescricao.setEditable(false);
-            jTextFieldPerfilProfissao.setEnabled(false);
-            jTextAreaPerfilExperienciaDescricao.setEnabled(false);
-            jLabelPerfilProfissao.setEnabled(false);
-            jLabelPerfilExperienciaDescricao.setEnabled(false);
-            jTextFieldPerfilProfissao.setVisible(false);
-            jTextAreaPerfilExperienciaDescricao.setVisible(false);
-            jLabelPerfilProfissao.setVisible(false);
-            jLabelPerfilExperienciaDescricao.setVisible(false);
-            jButtonPerfilSalvar.setVisible(false);
-        } else {
-            jTextFieldPerfilNome.setEditable(false);
-            jTextFieldDataNascimento.setEditable(false);
-            jTextFieldPerfilEmail.setEditable(false);
-            jTextFieldPerfilEndereco.setEditable(false);
-            jTextFieldPerfilTelefone.setEditable(false);
-            jTextFieldPerfilProfissao.setEditable(false);
-            jTextAreaPerfilExperienciaDescricao.setEditable(false);
-            jTextFieldPerfilProfissao.setEnabled(true);
-            jTextAreaPerfilExperienciaDescricao.setEnabled(true);
-            jLabelPerfilProfissao.setEnabled(true);
-            jLabelPerfilExperienciaDescricao.setEnabled(true);
-            jTextFieldPerfilProfissao.setVisible(true);
-            jTextAreaPerfilExperienciaDescricao.setVisible(true);
-            jLabelPerfilProfissao.setVisible(true);
-            jLabelPerfilExperienciaDescricao.setVisible(true);
-            jButtonPerfilSalvar.setVisible(false);
-        }
-    }
+   
     
     public void desativarCampos() {
         

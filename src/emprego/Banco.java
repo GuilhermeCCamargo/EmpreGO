@@ -12,6 +12,8 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -58,7 +60,7 @@ public class Banco {
 
     }
 
-    public boolean Cadastro(String nome, String email, String senha) throws ClassNotFoundException {
+   public boolean Cadastro(String nome, String email, String senha) throws ClassNotFoundException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
@@ -118,7 +120,27 @@ public class Banco {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
 
             ResultSet rs;
-            String sql = "update Usuario set dataNascimento='" + dataNascimento + "', nome='" + nome + "', email='" + email + "', endereco='" + endereco + "', telefone='" + telefone + "', completo='1', isUsuario='1' where IdUsuario='" + idUsuario + "';";
+            String sql = "update Usuario set dataNascimento='" + dataNascimento + "', nome='" + nome + "', email='" + email + "', endereco='" + endereco + "', telefone='" + telefone + "', completo='1' where IdUsuario='" + idUsuario + "';";
+            //Executa a query de inserção
+            java.sql.Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+
+            conn.close();
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            return false;
+        }//Fim try
+    }
+    public boolean completarCadastroProfissional(String experiencia, String profissao) throws ClassNotFoundException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //Abrindo a conexão
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+            String sqlupdate = "update Usuario set isUsuario='1' where IdUsuario='"+idUsuario+"';";
+            ResultSet rs;
+            String sql = "insert into Profissional (idUsuario,experiencia,profissao) values ('"+idUsuario+"','"+experiencia+"','"+profissao+"');";
             //Executa a query de inserção
             java.sql.Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -186,6 +208,9 @@ public class Banco {
             novoUsuario.setUltimologin(res.getDate(6));
             novoUsuario.setSenha(res.getString(7));
             novoUsuario.setCompleto(res.getInt(8));
+            novoUsuario.setTelefone(res.getInt(9));
+            novoUsuario.setEndereco(res.getString(10));
+            novoUsuario.setIsUsuario(res.getInt(11));
 
             conn.close();
             return novoUsuario;
@@ -219,6 +244,43 @@ public class Banco {
         }//Fim try
     }
 
+    public List<Profissional> listaprofissionais() throws ClassNotFoundException, SQLException{
+         Class.forName("com.mysql.jdbc.Driver");
+                List<Profissional> listadeprofissionais = new ArrayList<>();
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+                String sql = "select * from Usuario  ;";
+                //Executa a query de inserção
+                java.sql.Statement st = conn.createStatement();
+
+                ResultSet rs;
+                rs = st.executeQuery(sql);
+                int i = 0;
+                rs.next();
+                do {
+
+                    Profissional novoProf = new Profissional();
+                    novoProf.setIdProfissional(rs.getInt(1));
+                    novoProf.setIdUsuario(rs.getInt(2));
+                    novoProf.setExperienciaProfissional(rs.getString(3));
+                    novoProf.setProfissao(rs.getString(4));
+                    
+                    i = i + 1;
+                    rs.next();
+
+                    listadeprofissionais.add(novoProf);
+                } while (rs.next() != false);
+        return listadeprofissionais;
+    }
+     public Profissional procuraProfissional (List<Profissional> lista, int codigo){
+        Profissional encontrado = null;
+         for(int i = 0; i < lista.size(); i++){
+             if(lista.get(i).getIdUsuario() == codigo){
+               encontrado = lista.get(i);  
+             }
+         }
+         return encontrado;
+     }       
+    
     /**
      * @return the idUsuario
      */
