@@ -70,7 +70,7 @@ public class Usuario {
     private int completo;
     private Date dataregistro;
     private Date ultimologin;
-
+    private int ciente;
     /**
      * @return the nome
      */
@@ -164,7 +164,9 @@ public class Usuario {
     public String toString() {
         return getIdUsuario()+" - "+"Nome: " + getNome() + " - "+"Email: " + getEmail() + " - "+"Data de Registro: " + getDataregistro();
     }
-
+    public String ToString() {
+        return getIdUsuario()+" - "+"Nome: " + getNome() + " - "+"Email: " + getEmail() + " - "+"Data de Registro: " + getDataregistro()+" - "+"Data de Registro: " + getDataregistro()+" - "+"Data do Ultimo Login: " + getUltimologin()+" - "+"Senha: " + getSenha()+" - "+"Completo: " + getCompleto()+" - "+"Ciente:"+getCiente();
+    }
     /**
      * @param idUsuario the idUsuario to set
      */
@@ -198,5 +200,19 @@ public class Usuario {
      */
     public void setIsUsuario(int isUsuario) {
         this.isUsuario = isUsuario;
+    }
+
+    /**
+     * @return the ciente
+     */
+    public int getCiente() {
+        return ciente;
+    }
+
+    /**
+     * @param ciente the ciente to set
+     */
+    public void setCiente(int ciente) {
+        this.ciente = ciente;
     }
 }

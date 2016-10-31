@@ -6,6 +6,7 @@
 package emprego.view;
 
 import emprego.Banco;
+import emprego.model.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -15,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author gcamargo
  */
 public class Cadastro extends javax.swing.JFrame {
-
+    Usuario usuariologado = new Usuario();
     /**
      * Creates new form Cadastro
      */
@@ -23,6 +24,12 @@ public class Cadastro extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Cadastro");
+    }
+     public Cadastro(Usuario usuario) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Empre GO - Cadastro");
+        this.usuariologado = usuario;
     }
 
     /**
@@ -210,7 +217,7 @@ public class Cadastro extends javax.swing.JFrame {
 
     private void jButtonCompletarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompletarCadastroActionPerformed
 
-         String nome = jTextFieldCadastroNome.getText();
+            String nome = jTextFieldCadastroNome.getText();
             String dataNascimento = jTextFieldDataNascimento.getText();
             String email = jTextFieldCadastroEmail.getText();
             String endereco = jTextFieldCadastroEndereco.getText();
@@ -234,7 +241,7 @@ public class Cadastro extends javax.swing.JFrame {
 
             } else {
                 try {
-                    completar.completarCadastro(nome, dataNascimento, email, endereco, telefone);
+                    completar.completarCadastroUsuario(nome, dataNascimento, email, endereco, telefone);
                     completar.completarCadastroProfissional(experiencia, profissao);
                     JOptionPane.showMessageDialog(null, "Parabéns,Você completou seu perfil.");
                     Banco.completarUsuario = false;

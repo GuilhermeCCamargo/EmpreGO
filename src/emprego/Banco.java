@@ -14,13 +14,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author gcamargo
  */
-public class Banco {
+public class Banco implements InterfaceBanco {
 
     public static int idUsuario;
     public static int idProfissional;
@@ -30,37 +32,53 @@ public class Banco {
     public static boolean completarUsuario = false;
     public static boolean isUsuario = true;
 
-    public boolean Login(String email, String senha) {
+    @Override
+    public Usuario Login(String email, String senha) {
 
         try {
-            //Registra JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-            //Abrindo a conexão
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
 
-            String sql = "select idUsuario,nome from Usuario where email='" + email + "' and senha='" + senha + "';";
-            //Executa a query de inserção
+            Usuario usuariologado = new Usuario();
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+            String sql = "select * from Usuario where email='" + email + "' and senha='" + senha + "';";
             java.sql.Statement st = conn.createStatement();
             ResultSet rs;
             rs = st.executeQuery(sql);
+
             if (rs.next()) {
-                idUsuario = rs.getInt(1);
-                nomeUsuario = rs.getString(2);
+                
+                usuariologado.setIdUsuario(rs.getInt(1));
+                usuariologado.setNome(rs.getString(2));
+                usuariologado.setData_nascimento(rs.getString(3));
+                usuariologado.setEmail(rs.getString(4));
+                usuariologado.setDataregistro(rs.getDate(5));
+                usuariologado.setUltimologin(rs.getDate(6));
+                usuariologado.setSenha(rs.getString(7));
+                usuariologado.setCompleto(rs.getInt(8));
+                usuariologado.setTelefone(rs.getInt(9));
+                usuariologado.setEndereco(rs.getString(10));
+                usuariologado.setIsUsuario(rs.getInt(11));
+
                 conn.close();
-                return true;
+                return usuariologado;
             } else {
                 conn.close();
-                return false;
+                return null;
             }
 
-        } catch (SQLException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, e);
-            return false;
+        } catch (SQLException error) {
+
+            JOptionPane.showMessageDialog(null, error + "\nVerifique a instrução sql e o status de sua conexão com o banco de dados.\n");
+            return null;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex + "\nVerifique as configurações do servidor e da classe em questão.");
+            return null;
         }//Fim try
 
     }
 
-   public boolean Cadastro(String nome, String email, String senha) throws ClassNotFoundException {
+    @Override
+    public boolean Cadastro(String nome, String email, String senha) throws ClassNotFoundException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
@@ -71,18 +89,24 @@ public class Banco {
             String sql = "insert into Usuario (nome,email,senha)" + " values ('" + nome + "','" + email + "','" + senha + "');";
             //Executa a query de inserção
             java.sql.Statement st = conn.createStatement();
-            st.executeUpdate(sql);
+            if (st.executeUpdate(sql) > 0) {
 
-            JOptionPane.showMessageDialog(null, "Cadastro Efetuado.\nPor favor insira seus dados ao lado para entrar no sistema.");
+                JOptionPane.showMessageDialog(null, "Cadastro Efetuado.\nPor favor insira seus dados ao lado para entrar no sistema.");
 
-            conn.close();
-            return true;
+                conn.close();
+
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, verifique a conexão com o banco de dados.");
+                return false;
+            }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(null, e + "\nNão foi possível efetuar o cadastrono momento, possivelmente por um erro causado pelo SQL.\nVerifique sua conexão com o banco de dados e servidor.");
             return false;
         }//Fim try
     }
 
+    @Override
     public boolean verificarCadastro() throws ClassNotFoundException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -112,6 +136,7 @@ public class Banco {
 
     }
 
+    @Override
     public boolean completarCadastro(String nome, String dataNascimento, String email, String endereco, int telefone) throws ClassNotFoundException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -132,15 +157,17 @@ public class Banco {
             return false;
         }//Fim try
     }
-    public boolean completarCadastroProfissional(String experiencia, String profissao) throws ClassNotFoundException {
+
+    @Override
+    public boolean completarCadastroUsuario(String nome, String dataNascimento, String email, String endereco, int telefone) throws ClassNotFoundException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
             //Abrindo a conexão
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
-            String sqlupdate = "update Usuario set isUsuario='1' where IdUsuario='"+idUsuario+"';";
+
             ResultSet rs;
-            String sql = "insert into Profissional (idUsuario,experiencia,profissao) values ('"+idUsuario+"','"+experiencia+"','"+profissao+"');";
+            String sql = "update Usuario set dataNascimento='" + dataNascimento + "', nome='" + nome + "', email='" + email + "', endereco='" + endereco + "', telefone='" + telefone + "', completo='1',isUsuario='1' where IdUsuario='" + idUsuario + "';";
             //Executa a query de inserção
             java.sql.Statement st = conn.createStatement();
             st.executeUpdate(sql);
@@ -153,6 +180,29 @@ public class Banco {
         }//Fim try
     }
 
+    @Override
+    public boolean completarCadastroProfissional(String experiencia, String profissao) throws ClassNotFoundException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //Abrindo a conexão
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+            String sqlupdate = "update Usuario set isUsuario='1' where IdUsuario='" + idUsuario + "';";
+            ResultSet rs;
+            String sql = "insert into Profissional (idUsuario,experiencia,profissao) values ('" + idUsuario + "','" + experiencia + "','" + profissao + "');";
+            //Executa a query de inserção
+            java.sql.Statement st = conn.createStatement();
+            st.executeUpdate(sql);
+
+            conn.close();
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+            return false;
+        }//Fim try
+    }
+
+    @Override
     public Profissional montarProfissional() throws ClassNotFoundException {
 
         try {
@@ -183,6 +233,7 @@ public class Banco {
 
     }
 
+    @Override
     public Usuario montarUsuario() throws ClassNotFoundException {
 
         try {
@@ -221,66 +272,68 @@ public class Banco {
 
     }
 
-    public Profissional contratarProfissional(String nome, String email, Date dataregistro) throws ClassNotFoundException {
+    @Override
+    public boolean contratarProfissional(int idProfissional, String descricao) throws ClassNotFoundException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
             //Abrindo a conexão
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
 
-            ResultSet rs;
-            String sql = "select * Usuario where nome='" + nome + "' and email='" + email + "' and dataregistro='" + dataregistro + "';";
+            String sql = "insert into SolicitacaoServico (idProfissional,idUsuario,descricao) values ('" + idProfissional + "','" + idUsuario + "','" + descricao + "');";
             //Executa a query de inserção
             java.sql.Statement st = conn.createStatement();
 
-            rs = st.executeQuery(sql);
-            rs.next();
+            st.executeUpdate(sql);
 
             conn.close();
-            return null;
+            return true;
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
-            return null;
+            return false;
         }//Fim try
     }
 
-    public List<Profissional> listaprofissionais() throws ClassNotFoundException, SQLException{
-         Class.forName("com.mysql.jdbc.Driver");
-                List<Profissional> listadeprofissionais = new ArrayList<>();
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
-                String sql = "select * from Usuario  ;";
-                //Executa a query de inserção
-                java.sql.Statement st = conn.createStatement();
+    @Override
+    public List<Profissional> listaprofissionais() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.jdbc.Driver");
+        List<Profissional> listadeprofissionais = new ArrayList<>();
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+        String sql = "select * from Profissional  ;";
 
-                ResultSet rs;
-                rs = st.executeQuery(sql);
-                int i = 0;
-                rs.next();
-                do {
+        java.sql.Statement st = conn.createStatement();
 
-                    Profissional novoProf = new Profissional();
-                    novoProf.setIdProfissional(rs.getInt(1));
-                    novoProf.setIdUsuario(rs.getInt(2));
-                    novoProf.setExperienciaProfissional(rs.getString(3));
-                    novoProf.setProfissao(rs.getString(4));
-                    
-                    i = i + 1;
-                    rs.next();
+        ResultSet rs;
+        rs = st.executeQuery(sql);
 
-                    listadeprofissionais.add(novoProf);
-                } while (rs.next() != false);
+        rs.next();//Retirando o result set da posição zero que no caso é nula
+        do {
+
+            Profissional novoProf = new Profissional();
+            novoProf.setIdProfissional(rs.getInt(1));
+            novoProf.setIdUsuario(rs.getInt(2));
+            novoProf.setExperienciaProfissional(rs.getString(3));
+            novoProf.setProfissao(rs.getString(4));
+
+            rs.next();//Comando para não operar sob a mesma posição
+
+            listadeprofissionais.add(novoProf);
+        } while (rs.next() != false);
         return listadeprofissionais;
     }
-     public Profissional procuraProfissional (List<Profissional> lista, int codigo){
+
+    @Override
+    public Profissional procuraProfissional(List<Profissional> lista, int codigo) {
         Profissional encontrado = null;
-         for(int i = 0; i < lista.size(); i++){
-             if(lista.get(i).getIdUsuario() == codigo){
-               encontrado = lista.get(i);  
-             }
-         }
-         return encontrado;
-     }       
-    
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getIdUsuario() == codigo) {
+                encontrado = lista.get(i);
+            }
+        }
+        return encontrado;
+    }
+
     /**
      * @return the idUsuario
      */

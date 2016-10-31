@@ -255,16 +255,20 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Banco login = new Banco();
+        Usuario usuariologado = new Usuario();
         String email = jTextFieldLoginEmail.getText();
         String senha = jPasswordFieldLoginSenha.getText();
         if (email.equals("") || senha.equals("")) {
             JOptionPane.showMessageDialog(null, "Preencha os campos para logar no sistema.");
-        } else if (login.Login(email, senha)) {
-            Inicio inicio = new Inicio();
+        } else {
+            usuariologado = login.Login(email, senha);
+            if(usuariologado != null){
+            Inicio inicio = new Inicio(usuariologado);
             inicio.setVisible(true);
             this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Login ou senha inválidos tente novamente.");
+            }else{
+                JOptionPane.showMessageDialog(null,"Login ou Senha inválidos. Por favor verifique os dados e tente novamente.");
+            }
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

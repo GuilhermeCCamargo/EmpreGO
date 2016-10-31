@@ -26,6 +26,8 @@ import javax.swing.border.CompoundBorder;
  * @author gcamargo
  */
 public class Inicio extends javax.swing.JFrame {
+
+    Usuario usuariologado = new Usuario();
     List<Profissional> listadeprofissionais = new ArrayList<>();
     List<Usuario> listaUsuarios = new ArrayList<>();
 
@@ -37,7 +39,18 @@ public class Inicio extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Início");
         jMenuCompletarCadastro.setBorderPainted(false);
-        
+
+    }
+
+    public Inicio(Usuario usuario) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Empre GO - Início");
+        jMenuCompletarCadastro.setBorderPainted(false);
+        this.usuariologado = usuario;
+        jLabelNomeUsuario.setText(usuariologado.getNome());
+        jLabelDataUltimoLogin.setText(String.valueOf(usuariologado.getUltimologin()));
+
     }
 
     /**
@@ -55,6 +68,10 @@ public class Inicio extends javax.swing.JFrame {
         jLabelNomeUsuario = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListEventosRecentes = new javax.swing.JList<>();
+        jLabelExplicando = new javax.swing.JLabel();
+        jLabelExplicandocontinuacao = new javax.swing.JLabel();
+        jLabelUltimoLogin = new javax.swing.JLabel();
+        jLabelDataUltimoLogin = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuCompletarCadastro = new javax.swing.JMenu();
         jMenuPerfil = new javax.swing.JMenu();
@@ -87,10 +104,10 @@ public class Inicio extends javax.swing.JFrame {
 
         jLabelEventosRecentes.setText("Eventos Recentes");
 
-        jLabelBoasVindas.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
+        jLabelBoasVindas.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabelBoasVindas.setText("Seja Bem Vindo:");
 
-        jLabelNomeUsuario.setFont(new java.awt.Font("DejaVu Serif", 1, 11)); // NOI18N
+        jLabelNomeUsuario.setFont(new java.awt.Font("DejaVu Serif", 1, 12)); // NOI18N
         jLabelNomeUsuario.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jLabelNomeUsuarioComponentShown(evt);
@@ -103,6 +120,15 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jListEventosRecentes);
+
+        jLabelExplicando.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        jLabelExplicando.setText("A lista acima contém os profissionais cadastrados.");
+
+        jLabelExplicandocontinuacao.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        jLabelExplicandocontinuacao.setText("Para ver as opções disponíveis clique no usuário desejado.");
+
+        jLabelUltimoLogin.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
+        jLabelUltimoLogin.setText("Último Login em:");
 
         jMenuCompletarCadastro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
         jMenuCompletarCadastro.setText("Completar Perfil");
@@ -192,23 +218,34 @@ public class Inicio extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelExplicandocontinuacao)
+                    .addComponent(jLabelExplicando))
+                .addGap(54, 54, 54))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(57, 57, 57)
-                            .addComponent(jLabelInicioLogo))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(120, 120, 120)
-                            .addComponent(jLabelEventosRecentes))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(116, 116, 116)
-                            .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabelBoasVindas))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabelInicioLogo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabelEventosRecentes))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelBoasVindas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabelUltimoLogin)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelDataUltimoLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,9 +258,17 @@ public class Inicio extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelBoasVindas)
                     .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelUltimoLogin)
+                    .addComponent(jLabelDataUltimoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelExplicando)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addComponent(jLabelExplicandocontinuacao)
+                .addContainerGap())
         );
 
         pack();
@@ -237,98 +282,14 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairMouseClicked
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        try {
-            Banco verifica = new Banco();
-
-            jLabelNomeUsuario.setText(String.valueOf(verifica.getNomeUsuario()));
-            if (verifica.verificarCadastro()) {
-                JOptionPane.showMessageDialog(null, "Por favor complete seu cadastro.");
-                Banco.completarUsuario = true;
-                jMenuCompletarCadastro.setBorderPainted(true);
-
-                Class.forName("com.mysql.jdbc.Driver");
-
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
-                String sql = "select * from Usuario  ;";
-                //Executa a query de inserção
-                java.sql.Statement st = conn.createStatement();
-
-                ResultSet rs;
-                rs = st.executeQuery(sql);
-                rs.next();
-                int i = 0;
-                do {
-
-                    Usuario novoUsuario = new Usuario();
-                    novoUsuario.setIdUsuario(rs.getInt(1));
-                    novoUsuario.setNome(rs.getString(2));
-                    novoUsuario.setData_nascimento(rs.getString(3));
-                    novoUsuario.setEmail(rs.getString(4));
-                    novoUsuario.setDataregistro(rs.getDate(5));
-                    novoUsuario.setUltimologin(rs.getDate(6));
-                    novoUsuario.setSenha(rs.getString(7));
-                    novoUsuario.setCompleto(rs.getInt(8));
-                    i = i + 1;
-                    rs.next();
-
-                    listaUsuarios.add(novoUsuario);
-                } while (rs.next() != false);
-                DefaultListModel modelList = new DefaultListModel();
-                if (listaUsuarios == null) {
-                    JOptionPane.showMessageDialog(null, "Não encontrado.");
-                } else {
-                    for (Usuario imovel1 : listaUsuarios) {
-                        modelList.addElement(imovel1.toString());
-                    }
-                    jListEventosRecentes.setModel(modelList);
-                }
-
-            } else {
-                jMenuCompletarCadastro.setBorderPainted(false);
-                jMenuCompletarCadastro.setVisible(false);
-                Banco.completarUsuario = false;
-                Class.forName("com.mysql.jdbc.Driver");
-
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
-                String sql = "select * from Usuario  ;";
-                //Executa a query de inserção
-                java.sql.Statement st = conn.createStatement();
-
-                ResultSet rs;
-                rs = st.executeQuery(sql);
-                int i = 0;
-                rs.next();
-                do {
-
-                    Usuario novoUsuario = new Usuario();
-                    novoUsuario.setIdUsuario(rs.getInt(1));
-                    novoUsuario.setNome(rs.getString(2));
-                    novoUsuario.setData_nascimento(rs.getString(3));
-                    novoUsuario.setEmail(rs.getString(4));
-                    novoUsuario.setDataregistro(rs.getDate(5));
-                    novoUsuario.setUltimologin(rs.getDate(6));
-                    novoUsuario.setSenha(rs.getString(7));
-                    novoUsuario.setCompleto(rs.getInt(8));
-                    i = i + 1;
-                    rs.next();
-
-                    listaUsuarios.add(novoUsuario);
-                } while (rs.next() != false);
-                DefaultListModel modelList = new DefaultListModel();
-                if (listaUsuarios == null) {
-                    JOptionPane.showMessageDialog(null, "Não encontrado.");
-                } else {
-                    for (Usuario imovel1 : listaUsuarios) {
-                        modelList.addElement(imovel1.toString());
-                    }
-                    jListEventosRecentes.setModel(modelList);
-                }
-
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        if (usuariologado.getCompleto() == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor, complete seu cadastro.");
+            jMenuCompletarCadastro.setBorderPainted(true);
+            jMenuCompletarCadastro.setVisible(true);
+        } else {
+            jMenuCompletarCadastro.setBorderPainted(false);
+            jMenuCompletarCadastro.setEnabled(false);
+            jMenuCompletarCadastro.setVisible(false);
         }
 
 
@@ -396,13 +357,12 @@ public class Inicio extends javax.swing.JFrame {
             Banco completar = new Banco();
             if (Banco.isUsuario == true) {
                 perfil.completarUsuario(completar.montarUsuario());
-                
-                
+
                 perfil.setVisible(true);
                 this.dispose();
             } else {
                 perfil.completar(completar.montarUsuario(), completar.montarProfissional());
-               
+
                 perfil.setVisible(true);
                 this.dispose();
             }
@@ -412,34 +372,59 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemVisualizarActionPerformed
 
     private void jListEventosRecentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListEventosRecentesMouseClicked
-        if (!javax.swing.SwingUtilities.isRightMouseButton(evt) && !javax.swing.SwingUtilities.isMiddleMouseButton(evt)) {try {
-            //javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
-            String Profissional = jListEventosRecentes.getSelectedValue();
-            int escolha = Integer.valueOf(JOptionPane.showInputDialog("Selecione uma opção:\n1- Visualizar Perfil\n2- Solicitar serviço\n0- Cancelar"));
-            switch (escolha) {
-                case 1:
-                    int codigo = getCod(Profissional);
-                    Banco ajuda = new Banco();
-                    Perfil visualizar = new Perfil();
-                    Usuario auxiliar = listaUsuarios.get(codigo);
-                    listadeprofissionais = ajuda.listaprofissionais();
-                    visualizar.completar(auxiliar, ajuda.procuraProfissional(listadeprofissionais, codigo));
-                    visualizar.setVisible(true);
-                    this.dispose();
-                    break;
-                case 2:
-                    break;
-                case 0:
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null, "Digite uma opção válida.");
-                    break;
+        if (listaUsuarios.size() > 0) {
+            if (!javax.swing.SwingUtilities.isRightMouseButton(evt) && !javax.swing.SwingUtilities.isMiddleMouseButton(evt)) {
+                try {
+                    //javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
+                    String Profissional = jListEventosRecentes.getSelectedValue();
+                    int escolha = Integer.valueOf(JOptionPane.showInputDialog("Selecione uma opção:\n1- Visualizar Perfil\n2- Solicitar serviço\n0- Cancelar"));
+                    switch (escolha) {
+                        case 1:
+                            int codigo = getCod(Profissional);
+                            Banco ajuda = new Banco();
+                            Usuario auxiliar = null;
+                            Perfil visualizar = new Perfil();
+                            for (int i = 0; i < listaUsuarios.size(); i++) {
+                                if (listaUsuarios.get(i).getIdUsuario() == codigo) {
+                                    auxiliar = listaUsuarios.get(i);
+                                }
+                            }
+                            listadeprofissionais = ajuda.listaprofissionais();
+                            visualizar.completar(auxiliar, ajuda.procuraProfissional(listadeprofissionais, codigo));
+                            visualizar.desativarCampos();
+                            visualizar.setVisible(true);
+                            this.dispose();
+                            break;
+                        case 2:
+                            int codigoProfissional = getCod(Profissional);
+                            Banco ajudaBanco = new Banco();
+                            Usuario usuario = null;
+
+                            for (int i = 0; i < listaUsuarios.size(); i++) {
+                                if (listaUsuarios.get(i).getIdUsuario() == codigoProfissional) {
+                                    usuario = listaUsuarios.get(i);
+                                }
+                            }
+                            listadeprofissionais = ajudaBanco.listaprofissionais();
+                            Solicitacao solicitar = new Solicitacao(usuario);
+                            solicitar.setVisible(true);
+                            this.dispose();
+
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(null, "Digite uma opção válida.");
+                            break;
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No momento ainda não existe profissional cadastrado.");
         }
 
     }//GEN-LAST:event_jListEventosRecentesMouseClicked
@@ -499,6 +484,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
     }
+
     private int getCod(String cod) {
         int end = 0;
         for (int i = 0; i < cod.length(); i++) {
@@ -514,9 +500,13 @@ public class Inicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelBoasVindas;
+    private javax.swing.JLabel jLabelDataUltimoLogin;
     private javax.swing.JLabel jLabelEventosRecentes;
+    private javax.swing.JLabel jLabelExplicando;
+    private javax.swing.JLabel jLabelExplicandocontinuacao;
     private javax.swing.JLabel jLabelInicioLogo;
     private javax.swing.JLabel jLabelNomeUsuario;
+    private javax.swing.JLabel jLabelUltimoLogin;
     private javax.swing.JList<String> jListEventosRecentes;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuCompletarCadastro;

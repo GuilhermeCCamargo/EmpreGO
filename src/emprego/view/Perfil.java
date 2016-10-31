@@ -245,7 +245,10 @@ public class Perfil extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-        if (Banco.isUsuario == true) {            
+       
+    }//GEN-LAST:event_formComponentShown
+    public void verifica(){
+         if (Banco.isUsuario == true) {            
             jTextFieldPerfilNome.setEditable(false);
             jTextFieldDataNascimento.setEditable(false);
             jTextFieldPerfilEmail.setEditable(false);
@@ -280,8 +283,7 @@ public class Perfil extends javax.swing.JFrame {
             jLabelPerfilExperienciaDescricao.setVisible(true);
             jButtonPerfilSalvar.setVisible(false);
         }
-    }//GEN-LAST:event_formComponentShown
-
+    }
     /**
      * @param args the command line arguments
      */
