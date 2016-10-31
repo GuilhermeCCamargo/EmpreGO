@@ -5,6 +5,10 @@
  */
 package emprego.view;
 
+import emprego.Banco;
+import emprego.model.Profissional;
+import emprego.model.Usuario;
+
 /**
  *
  * @author gcamargo
@@ -35,8 +39,6 @@ public class Perfil extends javax.swing.JFrame {
         jTextFieldPerfilEmail = new javax.swing.JTextField();
         jLabelPerfilEndereco = new javax.swing.JLabel();
         jTextFieldPerfilEndereco = new javax.swing.JTextField();
-        jLabelPerfilCelular = new javax.swing.JLabel();
-        jTextFieldPerfilCelular = new javax.swing.JTextField();
         jLabelPerfilTelefone = new javax.swing.JLabel();
         jTextFieldPerfilTelefone = new javax.swing.JTextField();
         jLabelPerfilProfissao = new javax.swing.JLabel();
@@ -45,19 +47,25 @@ public class Perfil extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaPerfilExperienciaDescricao = new javax.swing.JTextArea();
         jButtonPerfilSalvar = new javax.swing.JButton();
+        jLabelDatanascimento = new javax.swing.JLabel();
+        jTextFieldDataNascimento = new javax.swing.JTextField();
+        jButtonVoltar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuPerfilEditar = new javax.swing.JMenu();
         jMenuVoltar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabelPerfilNome.setText("Nome:");
 
         jLabelPerfilEmail.setText("Email:");
 
         jLabelPerfilEndereco.setText("Endereço:");
-
-        jLabelPerfilCelular.setText("Celular:");
 
         jLabelPerfilTelefone.setText("Telefone:");
 
@@ -70,10 +78,19 @@ public class Perfil extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextAreaPerfilExperienciaDescricao);
 
         jButtonPerfilSalvar.setText("Salvar");
-        jButtonPerfilSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonPerfilSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jLabelDatanascimento.setText("Data de Nascimento:");
+
+        jButtonVoltar.setText("Voltar");
+        jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVoltarActionPerformed(evt);
+            }
+        });
 
         jMenuPerfilEditar.setText("Editar");
-        jMenuPerfilEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuPerfilEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenuPerfilEditar.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuSelected(javax.swing.event.MenuEvent evt) {
                 jMenuPerfilEditarMenuSelected(evt);
@@ -91,7 +108,7 @@ public class Perfil extends javax.swing.JFrame {
         jMenuBar1.add(jMenuPerfilEditar);
 
         jMenuVoltar.setText("Voltar");
-        jMenuVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jMenuVoltar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenuVoltar.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuSelected(javax.swing.event.MenuEvent evt) {
                 jMenuVoltarMenuSelected(evt);
@@ -114,33 +131,46 @@ public class Perfil extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelPerfilProfissao)
-                    .addComponent(jLabelPerfilTelefone)
-                    .addComponent(jLabelPerfilCelular)
-                    .addComponent(jLabelPerfilEndereco)
-                    .addComponent(jLabelPerfilEmail)
-                    .addComponent(jLabelPerfilNome))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelPerfilExperienciaDescricao)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextFieldPerfilEmail)
-                        .addComponent(jTextFieldPerfilEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                        .addComponent(jTextFieldPerfilNome))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextFieldPerfilProfissao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                        .addComponent(jTextFieldPerfilTelefone, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextFieldPerfilCelular, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPerfilSalvar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonPerfilSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGap(22, 22, 22)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabelPerfilProfissao)
+                                .addComponent(jLabelPerfilTelefone)
+                                .addComponent(jLabelPerfilEndereco)
+                                .addComponent(jLabelPerfilEmail))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelPerfilExperienciaDescricao)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextFieldPerfilEmail)
+                                    .addComponent(jTextFieldPerfilEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextFieldPerfilProfissao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldPerfilTelefone, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabelPerfilNome)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelDatanascimento)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldPerfilNome, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,16 +181,16 @@ public class Perfil extends javax.swing.JFrame {
                     .addComponent(jTextFieldPerfilNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelDatanascimento)
+                    .addComponent(jTextFieldDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPerfilEmail)
                     .addComponent(jTextFieldPerfilEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldPerfilEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPerfilEndereco))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldPerfilCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPerfilCelular))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldPerfilTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -173,8 +203,10 @@ public class Perfil extends javax.swing.JFrame {
                 .addComponent(jLabelPerfilExperienciaDescricao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jButtonPerfilSalvar)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPerfilSalvar)
+                    .addComponent(jButtonVoltar))
                 .addContainerGap())
         );
 
@@ -182,30 +214,39 @@ public class Perfil extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuPerfilEditarMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuPerfilEditarMenuSelected
-                      
+
     }//GEN-LAST:event_jMenuPerfilEditarMenuSelected
 
     private void jMenuVoltarMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuVoltarMenuSelected
-       
+
     }//GEN-LAST:event_jMenuVoltarMenuSelected
 
     private void jMenuPerfilEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuPerfilEditarMouseClicked
-         jTextFieldPerfilNome.setEditable(true);
+        jTextFieldPerfilNome.setEditable(true);
         jTextFieldPerfilEmail.setEditable(true);
         jTextFieldPerfilEndereco.setEditable(true);
-        jTextFieldPerfilCelular.setEditable(true);
         jTextFieldPerfilTelefone.setEditable(true);
         jTextFieldPerfilProfissao.setEditable(true);
         jTextAreaPerfilExperienciaDescricao.setEditable(true);
         jButtonPerfilSalvar.setVisible(true);
-                
+
     }//GEN-LAST:event_jMenuPerfilEditarMouseClicked
 
     private void jMenuVoltarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVoltarMouseClicked
-         Inicio voltar = new Inicio();
+        Inicio voltar = new Inicio();
         voltar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuVoltarMouseClicked
+
+    private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
+        Inicio voltar = new Inicio();
+        voltar.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonVoltarActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -241,12 +282,70 @@ public class Perfil extends javax.swing.JFrame {
             }
         });
     }
-    public void carregando(){
+    
+    public void completar(Usuario usuario, Profissional profissional) {
+        jTextFieldPerfilNome.setText(usuario.getNome());
+        jTextFieldDataNascimento.setText(usuario.getData_Nascimento());
+        jTextFieldPerfilEmail.setText(usuario.getEmail());
+        jTextFieldPerfilEndereco.setText(profissional.getEndereco());
+        jTextFieldPerfilTelefone.setText(String.valueOf(usuario.getTelefone()));
+        jTextFieldPerfilProfissao.setText(profissional.getProfissao());
+        jTextAreaPerfilExperienciaDescricao.setText(profissional.getExperienciaProfissional());
+        
+    }
+    
+    public void completarUsuario(Usuario usuario) {
+        jTextFieldPerfilNome.setText(usuario.getNome());
+        jTextFieldPerfilEmail.setText(usuario.getEmail());
+        jTextFieldPerfilTelefone.setText(String.valueOf(usuario.getTelefone()));
+        jTextFieldPerfilEndereco.setText(String.valueOf(usuario.getEndereco()));
+        jTextFieldDataNascimento.setText(usuario.getData_Nascimento());
+        
+    }
+    
+    public void verifica() {
+        if (Banco.isUsuario == true) {            
+            jTextFieldPerfilNome.setEditable(false);
+            jTextFieldDataNascimento.setEditable(false);
+            jTextFieldPerfilEmail.setEditable(false);
+            jTextFieldPerfilEndereco.setEditable(false);
+            jTextFieldPerfilTelefone.setEditable(false);
+            jTextFieldPerfilProfissao.setEditable(false);
+            jTextAreaPerfilExperienciaDescricao.setEditable(false);
+            jTextFieldPerfilProfissao.setEnabled(false);
+            jTextAreaPerfilExperienciaDescricao.setEnabled(false);
+            jLabelPerfilProfissao.setEnabled(false);
+            jLabelPerfilExperienciaDescricao.setEnabled(false);
+            jTextFieldPerfilProfissao.setVisible(false);
+            jTextAreaPerfilExperienciaDescricao.setVisible(false);
+            jLabelPerfilProfissao.setVisible(false);
+            jLabelPerfilExperienciaDescricao.setVisible(false);
+            jButtonPerfilSalvar.setVisible(false);
+        } else {
+            jTextFieldPerfilNome.setEditable(false);
+            jTextFieldDataNascimento.setEditable(false);
+            jTextFieldPerfilEmail.setEditable(false);
+            jTextFieldPerfilEndereco.setEditable(false);
+            jTextFieldPerfilTelefone.setEditable(false);
+            jTextFieldPerfilProfissao.setEditable(false);
+            jTextAreaPerfilExperienciaDescricao.setEditable(false);
+            jTextFieldPerfilProfissao.setEnabled(true);
+            jTextAreaPerfilExperienciaDescricao.setEnabled(true);
+            jLabelPerfilProfissao.setEnabled(true);
+            jLabelPerfilExperienciaDescricao.setEnabled(true);
+            jTextFieldPerfilProfissao.setVisible(true);
+            jTextAreaPerfilExperienciaDescricao.setVisible(true);
+            jLabelPerfilProfissao.setVisible(true);
+            jLabelPerfilExperienciaDescricao.setVisible(true);
+            jButtonPerfilSalvar.setVisible(false);
+        }
+    }
+    
+    public void desativarCampos() {
         
         jTextFieldPerfilNome.setEditable(false);
         jTextFieldPerfilEmail.setEditable(false);
         jTextFieldPerfilEndereco.setEditable(false);
-        jTextFieldPerfilCelular.setEditable(false);
         jTextFieldPerfilTelefone.setEditable(false);
         jTextFieldPerfilProfissao.setEditable(false);
         jTextAreaPerfilExperienciaDescricao.setEditable(false);
@@ -256,7 +355,8 @@ public class Perfil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton jButtonPerfilSalvar;
-    private javax.swing.JLabel jLabelPerfilCelular;
+    private javax.swing.JButton jButtonVoltar;
+    private javax.swing.JLabel jLabelDatanascimento;
     private javax.swing.JLabel jLabelPerfilEmail;
     private javax.swing.JLabel jLabelPerfilEndereco;
     private javax.swing.JLabel jLabelPerfilExperienciaDescricao;
@@ -268,7 +368,7 @@ public class Perfil extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuVoltar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaPerfilExperienciaDescricao;
-    private javax.swing.JTextField jTextFieldPerfilCelular;
+    private javax.swing.JTextField jTextFieldDataNascimento;
     private javax.swing.JTextField jTextFieldPerfilEmail;
     private javax.swing.JTextField jTextFieldPerfilEndereco;
     private javax.swing.JTextField jTextFieldPerfilNome;

@@ -58,21 +58,19 @@ public class Usuario {
     public void setCompleto(int completo) {
         this.completo = completo;
     }
-    
+
     private String nome;
     private String email;
     private String senha;
     private int telefone;
-    private int celular;
-    private String perguntaSecreta;
-    private String resposta;
+    private String endereco;
     private String data_Nascimento;
-    private int cpf;
+
     private int idUsuario;
     private int completo;
     private Date dataregistro;
     private Date ultimologin;
-    
+
     /**
      * @return the nome
      */
@@ -130,20 +128,6 @@ public class Usuario {
     }
 
     /**
-     * @return the cpf
-     */
-    public int getCpf() {
-        return cpf;
-    }
-
-    /**
-     * @param cpf the cpf to set
-     */
-    public void setCpf(int cpf) {
-        this.cpf = cpf;
-    }
-
-    /**
      * @return the telefone
      */
     public int getTelefone() {
@@ -158,87 +142,47 @@ public class Usuario {
     }
 
     /**
-     * @return the celular
-     */
-    public int getCelular() {
-        return celular;
-    }
-
-    /**
-     * @param celular the celular to set
-     */
-    public void setCelular(int celular) {
-        this.celular = celular;
-    }
-
-    /**
-     * @return the perguntasecreta
-     */
-    public String getPerguntaSecreta() {
-        return perguntaSecreta;
-    }
-
-    /**
-     * @param perguntasecreta the perguntasecreta to set
-     */
-    public void setPerguntaSecreta(String perguntaSecreta) {
-        this.perguntaSecreta = perguntaSecreta;
-    }
-
-    /**
-     * @return the resposta
-     */
-    public String getResposta() {
-        return resposta;
-    }
-
-    /**
-     * @param resposta the resposta to set
-     */
-    public void setResposta(String resposta) {
-        this.resposta = resposta;
-    }
-
-    /**
      * @return the idUsuario
      */
     public int getIdUsuario() {
         return idUsuario;
     }
-    public Usuario(String nome, String email, String senha){
+
+    public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.celular = 0;
         this.telefone = 0;
-        this.cpf = 0;
         this.data_Nascimento = "0/0/";
-        this.perguntaSecreta = "teste";
-        this.resposta = "teste";
         this.idUsuario = 0;
     }
-    public Usuario(){
-        
-    }
-    public String writeFile() {
-                                    String writeFile = getNome()+";"+getEmail()+";"+getSenha()+";"+
-                                    getCelular()+";"+getTelefone()+";"+getCpf()+";"+
-                                    getData_Nascimento()+";"+getPerguntaSecreta()+";"+getResposta()+";"+getIdUsuario()+";\n";
-        
-        return writeFile;
+
+    public Usuario() {
+
     }
 
-    public String ToString() {
-        return "Nome: "+getNome()+" Email: "+getEmail()+" CPF: "+getCpf()+" Senha: "+getSenha()+" Celular: "+getCelular()+" Telefone: "+getTelefone()+" Pergunta: "+getPerguntaSecreta()+" Resposta: "+getResposta()+ "Id do Usuário : "+getIdUsuario()+" Data de Nascimento: "+getData_Nascimento();
+    public String toString() {
+        return "Nome: " + getNome() + "  Email: " + getEmail() + "  Data de Registro: " + getDataregistro();
     }
 
-     public String toString() {
-        return "Código: "+getIdUsuario()+" Nome: "+getNome()+" Data de Nascimento: "+getData_Nascimento()+" Email: "+getEmail()+"Data de Registro: "+getDataregistro()+" Ultimo Login: "+getUltimologin()+" Senha: "+getSenha()+" Completo: "+getCompleto();
-    }
     /**
      * @param idUsuario the idUsuario to set
      */
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    /**
+     * @return the endereco
+     */
+    public String getEndereco() {
+        return endereco;
+    }
+
+    /**
+     * @param endereco the endereco to set
+     */
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

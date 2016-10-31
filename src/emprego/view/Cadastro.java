@@ -5,6 +5,11 @@
  */
 package emprego.view;
 
+import emprego.Banco;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author gcamargo
@@ -35,7 +40,6 @@ public class Cadastro extends javax.swing.JFrame {
         jTextFieldCadastroEmail = new javax.swing.JTextField();
         jLabelCadastroEndereco = new javax.swing.JLabel();
         jTextFieldCadastroEndereco = new javax.swing.JTextField();
-        jLabelCadastroCelular = new javax.swing.JLabel();
         jLabelCadastroTelefone = new javax.swing.JLabel();
         jLabelCadastroProfissao = new javax.swing.JLabel();
         jTextFieldCadastroProfissao = new javax.swing.JTextField();
@@ -45,19 +49,23 @@ public class Cadastro extends javax.swing.JFrame {
         jButtonCompletarVoltar = new javax.swing.JButton();
         jButtonCompletarCadastro = new javax.swing.JButton();
         jTextFieldCadastroTelefone = new javax.swing.JTextField();
-        jTextFieldCadastroCelular = new javax.swing.JTextField();
         jLabelCompletarCadastro = new javax.swing.JLabel();
         jCheckBoxSolicitacoes = new javax.swing.JCheckBox();
+        jLabelDataNascimento = new javax.swing.JLabel();
+        jTextFieldDataNascimento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabelCadastroNome.setText("Nome:");
 
         jLabelCadastroEmail.setText("Email:");
 
         jLabelCadastroEndereco.setText("* Endereço:");
-
-        jLabelCadastroCelular.setText("Celular:");
 
         jLabelCadastroTelefone.setText("Telefone:");
 
@@ -77,10 +85,22 @@ public class Cadastro extends javax.swing.JFrame {
         });
 
         jButtonCompletarCadastro.setText("Completar");
+        jButtonCompletarCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCompletarCadastroActionPerformed(evt);
+            }
+        });
 
         jLabelCompletarCadastro.setText("Complete seu Cadastro");
 
         jCheckBoxSolicitacoes.setText("Desejo estar disponível para contratação");
+        jCheckBoxSolicitacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxSolicitacoesActionPerformed(evt);
+            }
+        });
+
+        jLabelDataNascimento.setText("Data de nascimento:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,30 +114,41 @@ public class Cadastro extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jLabelCadastroExperienciaDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonCompletarVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonCompletarCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jCheckBoxSolicitacoes)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabelCadastroProfissao)
-                                        .addComponent(jLabelCadastroTelefone)
-                                        .addComponent(jLabelCadastroCelular)
-                                        .addComponent(jLabelCadastroEndereco)
-                                        .addComponent(jLabelCadastroEmail)
-                                        .addComponent(jLabelCadastroNome))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTextFieldCadastroProfissao, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextFieldCadastroEmail)
-                                        .addComponent(jTextFieldCadastroEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                                        .addComponent(jTextFieldCadastroNome)
-                                        .addComponent(jTextFieldCadastroCelular)
-                                        .addComponent(jTextFieldCadastroTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jCheckBoxSolicitacoes)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabelCadastroEndereco)
+                                            .addComponent(jLabelCadastroEmail)
+                                            .addComponent(jLabelCadastroNome))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabelDataNascimento)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextFieldDataNascimento))
+                                            .addComponent(jTextFieldCadastroEmail)
+                                            .addComponent(jTextFieldCadastroEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                                            .addComponent(jTextFieldCadastroNome)))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jLabelCadastroExperienciaDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabelCadastroProfissao)
+                                    .addComponent(jLabelCadastroTelefone))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldCadastroProfissao, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldCadastroTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -127,10 +158,14 @@ public class Cadastro extends javax.swing.JFrame {
                 .addComponent(jLabelCompletarCadastro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBoxSolicitacoes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldCadastroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelCadastroNome))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCadastroNome)
-                    .addComponent(jTextFieldCadastroNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDataNascimento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCadastroEmail)
@@ -141,21 +176,17 @@ public class Cadastro extends javax.swing.JFrame {
                     .addComponent(jTextFieldCadastroEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCadastroCelular)
-                    .addComponent(jTextFieldCadastroCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCadastroTelefone)
                     .addComponent(jTextFieldCadastroTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelCadastroProfissao)
-                    .addComponent(jTextFieldCadastroProfissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jTextFieldCadastroProfissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelCadastroProfissao))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelCadastroExperienciaDescricao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCompletarVoltar)
                     .addComponent(jButtonCompletarCadastro))
@@ -170,6 +201,58 @@ public class Cadastro extends javax.swing.JFrame {
         voltar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonCompletarVoltarActionPerformed
+
+    private void jButtonCompletarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompletarCadastroActionPerformed
+
+        try {
+            String nome = jTextFieldCadastroNome.getText();
+            String dataNascimento = jTextFieldDataNascimento.getText();
+            String email = jTextFieldCadastroEmail.getText();
+            String endereco = jTextFieldCadastroEndereco.getText();
+            int telefone = Integer.valueOf(jTextFieldCadastroTelefone.getText());
+            String profissao = jTextFieldCadastroProfissao.getText();
+            String experiencia = jTextAreaCadastroExperienciaDescricao.getText();
+            Banco completar = new Banco();
+            if (completar.completarCadastro(nome, dataNascimento, email, endereco, telefone)) {
+                JOptionPane.showMessageDialog(null, "Parabéns,Você completou seu perfil.");
+                Banco.completarUsuario = false;
+                Inicio voltar = new Inicio();
+                voltar.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível concluir seu perfil, verifique sua conexão com o banco de dados e tente novamente mais tarde.");
+                Inicio voltar = new Inicio();
+                voltar.setVisible(true);
+                this.dispose();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButtonCompletarCadastroActionPerformed
+
+    private void jCheckBoxSolicitacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSolicitacoesActionPerformed
+        jTextAreaCadastroExperienciaDescricao.setVisible(true);
+        jLabelCadastroProfissao.setVisible(true);
+        jLabelCadastroExperienciaDescricao.setVisible(true);
+        jTextFieldCadastroProfissao.setVisible(true);
+        jTextAreaCadastroExperienciaDescricao.setEnabled(true);
+        jLabelCadastroProfissao.setEnabled(true);
+        jLabelCadastroExperienciaDescricao.setEnabled(true);
+        jTextFieldCadastroProfissao.setEnabled(true);
+        Banco.isUsuario = false;
+    }//GEN-LAST:event_jCheckBoxSolicitacoesActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        jTextAreaCadastroExperienciaDescricao.setVisible(false);
+        jLabelCadastroProfissao.setVisible(false);
+        jLabelCadastroExperienciaDescricao.setVisible(false);
+        jTextFieldCadastroProfissao.setVisible(false);
+        jTextAreaCadastroExperienciaDescricao.setEnabled(false);
+        jLabelCadastroProfissao.setEnabled(false);
+        jLabelCadastroExperienciaDescricao.setEnabled(false);
+        jTextFieldCadastroProfissao.setEnabled(false);
+    }//GEN-LAST:event_formComponentShown
 
     /**
      * @param args the command line arguments
@@ -205,7 +288,7 @@ public class Cadastro extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void soNumeros(java.awt.event.KeyEvent evt, boolean isDouble) {
         char ch = evt.getKeyChar();
         if (isDouble) {
@@ -225,7 +308,6 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCompletarCadastro;
     private javax.swing.JButton jButtonCompletarVoltar;
     private javax.swing.JCheckBox jCheckBoxSolicitacoes;
-    private javax.swing.JLabel jLabelCadastroCelular;
     private javax.swing.JLabel jLabelCadastroEmail;
     private javax.swing.JLabel jLabelCadastroEndereco;
     private javax.swing.JLabel jLabelCadastroExperienciaDescricao;
@@ -233,13 +315,14 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelCadastroProfissao;
     private javax.swing.JLabel jLabelCadastroTelefone;
     private javax.swing.JLabel jLabelCompletarCadastro;
+    private javax.swing.JLabel jLabelDataNascimento;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaCadastroExperienciaDescricao;
-    private javax.swing.JTextField jTextFieldCadastroCelular;
     private javax.swing.JTextField jTextFieldCadastroEmail;
     private javax.swing.JTextField jTextFieldCadastroEndereco;
     private javax.swing.JTextField jTextFieldCadastroNome;
     private javax.swing.JTextField jTextFieldCadastroProfissao;
     private javax.swing.JTextField jTextFieldCadastroTelefone;
+    private javax.swing.JTextField jTextFieldDataNascimento;
     // End of variables declaration//GEN-END:variables
 }

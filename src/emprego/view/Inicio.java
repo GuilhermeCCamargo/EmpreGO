@@ -27,7 +27,6 @@ import javax.swing.border.CompoundBorder;
 public class Inicio extends javax.swing.JFrame {
 
     List<Usuario> listaUsuarios = new ArrayList<>();
-   
 
     /**
      * Creates new form Inicio
@@ -36,7 +35,7 @@ public class Inicio extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Início");
-        jMenu1.setBorderPainted(false);
+        jMenuCompletarCadastro.setBorderPainted(false);
     }
 
     /**
@@ -55,16 +54,19 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jListEventosRecentes = new javax.swing.JList<>();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuCompletarCadastro = new javax.swing.JMenu();
+        jMenuPerfil = new javax.swing.JMenu();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItemEditar = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        jMenuItemVisualizar = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuSolicitacoes = new javax.swing.JMenu();
+        jMenuConta = new javax.swing.JMenu();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemExcluir = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItemSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -93,68 +95,94 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
+        jListEventosRecentes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListEventosRecentesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListEventosRecentes);
 
-        jMenu1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
-        jMenu1.setText("Perfil");
-        jMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jMenu1.addMenuListener(new javax.swing.event.MenuListener() {
+        jMenuCompletarCadastro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        jMenuCompletarCadastro.setText("Completar Perfil");
+        jMenuCompletarCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenuCompletarCadastro.addMenuListener(new javax.swing.event.MenuListener() {
             public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenu1MenuSelected(evt);
+                jMenuCompletarCadastroMenuSelected(evt);
             }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
             public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
         });
-        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenuCompletarCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenu1MouseClicked(evt);
+                jMenuCompletarCadastroMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jMenuCompletarCadastroMouseEntered(evt);
             }
         });
-
-        jMenuItem4.setText("Visualizar");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        jMenuCompletarCadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                jMenuCompletarCadastroActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
+        jMenuBar1.add(jMenuCompletarCadastro);
 
-        jMenuItem5.setText("Editar");
-        jMenu1.add(jMenuItem5);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu3.setText("Solicitações");
-        jMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("Conta");
-        jMenu4.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        jMenuItem1.setText("Configurações");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem1);
-        jMenu4.add(jSeparator1);
-
-        jMenuItem2.setText("Excluir");
-        jMenu4.add(jMenuItem2);
-        jMenu4.add(jSeparator2);
-
-        jMenuItem3.setText("Sair");
-        jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenuPerfil.setText("Perfil");
+        jMenuPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem3MouseClicked(evt);
+                jMenuPerfilMouseClicked(evt);
             }
         });
-        jMenu4.add(jMenuItem3);
+        jMenuPerfil.add(jSeparator3);
 
-        jMenuBar1.add(jMenu4);
+        jMenuItemEditar.setText("Editar");
+        jMenuItemEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEditarActionPerformed(evt);
+            }
+        });
+        jMenuPerfil.add(jMenuItemEditar);
+        jMenuPerfil.add(jSeparator5);
+
+        jMenuItemVisualizar.setText("Visualizar");
+        jMenuItemVisualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemVisualizarActionPerformed(evt);
+            }
+        });
+        jMenuPerfil.add(jMenuItemVisualizar);
+        jMenuPerfil.add(jSeparator4);
+
+        jMenuBar1.add(jMenuPerfil);
+
+        jMenuSolicitacoes.setText("Solicitações");
+        jMenuSolicitacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenuBar1.add(jMenuSolicitacoes);
+
+        jMenuConta.setText("Conta");
+        jMenuConta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenuConta.add(jSeparator1);
+
+        jMenuItemExcluir.setText("Excluir");
+        jMenuConta.add(jMenuItemExcluir);
+        jMenuConta.add(jSeparator2);
+
+        jMenuItemSair.setText("Sair");
+        jMenuItemSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItemSairMouseClicked(evt);
+            }
+        });
+        jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSairActionPerformed(evt);
+            }
+        });
+        jMenuConta.add(jMenuItemSair);
+
+        jMenuBar1.add(jMenuConta);
 
         setJMenuBar(jMenuBar1);
 
@@ -163,22 +191,21 @@ public class Inicio extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabelBoasVindas))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabelInicioLogo))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabelEventosRecentes))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(57, 57, 57)
+                            .addComponent(jLabelInicioLogo))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(120, 120, 120)
+                            .addComponent(jLabelEventosRecentes))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(116, 116, 116)
+                            .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabelBoasVindas))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -193,145 +220,234 @@ public class Inicio extends javax.swing.JFrame {
                     .addComponent(jLabelBoasVindas)
                     .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenu1MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu1MenuSelected
-
-    }//GEN-LAST:event_jMenu1MenuSelected
-
-    private void jMenuItem3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MouseClicked
+    private void jMenuItemSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemSairMouseClicked
         Login inicio = new Login();
         inicio.setVisible(true);
         this.dispose();
 
-    }//GEN-LAST:event_jMenuItem3MouseClicked
-
-    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-        Perfil exibir = new Perfil();
-        exibir.jButtonPerfilSalvar.setVisible(false);
-        exibir.carregando();
-        exibir.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jMenu1MouseClicked
+    }//GEN-LAST:event_jMenuItemSairMouseClicked
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
- try {
+        try {
             Banco verifica = new Banco();
-            System.out.println(Banco.idUsuario);
-            System.out.println(Banco.nomeUsuario);
+
             jLabelNomeUsuario.setText(String.valueOf(verifica.getNomeUsuario()));
             if (verifica.verificarCadastro()) {
-                JOptionPane.showMessageDialog(null,"Por favor complete seu cadastro.");
-                
-                jMenu1.setBorderPainted(true);
-                jMenu1.getItem(1).setBackground(Color.red);
-                  Class.forName("com.mysql.jdbc.Driver");
+                JOptionPane.showMessageDialog(null, "Por favor complete seu cadastro.");
+                Banco.completarUsuario = true;
+                jMenuCompletarCadastro.setBorderPainted(true);
 
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
-            String sql = "select * from Usuario  ;";
-            //Executa a query de inserção
-            java.sql.Statement st = conn.createStatement();
-           
-            ResultSet rs;
-            rs = st.executeQuery(sql);
-            rs.next();
-                 for(int i = 0; i < 4;i++){
-            Usuario novoUsuario = new Usuario();
-            novoUsuario.setIdUsuario(rs.getInt(1));
-            novoUsuario.setNome(rs.getString(2));
-            novoUsuario.setData_nascimento(rs.getString(3));
-            novoUsuario.setEmail(rs.getString(4));
-            novoUsuario.setDataregistro(rs.getDate(5));
-            novoUsuario.setUltimologin(rs.getDate(6));
-            novoUsuario.setSenha(rs.getString(7));
-            novoUsuario.setCompleto(rs.getInt(8));
-            rs.next();
-                     
-            listaUsuarios.add(novoUsuario);
-                 }
-               
-                            DefaultListModel modelList = new DefaultListModel();
-                            if(listaUsuarios == null){
-                                JOptionPane.showMessageDialog(null, "Não encontrado.");
-                            }else{
-                            for (Usuario imovel1 : listaUsuarios) {
-                                modelList.addElement(imovel1.toString());
-                            }
-                            jListEventosRecentes.setModel(modelList);}
-                 
-                
-            } else{
-                jMenu1.setBorderPainted(false);
-                
-                      Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.jdbc.Driver");
 
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
-            String sql = "select * from Usuario  ;";
-            //Executa a query de inserção
-            java.sql.Statement st = conn.createStatement();
-           
-            ResultSet rs;
-            rs = st.executeQuery(sql);
-            rs.next();
-                 for(int i = 0; i < 4;i++){
-            Usuario novoUsuario = new Usuario();
-            novoUsuario.setIdUsuario(rs.getInt(1));
-            novoUsuario.setNome(rs.getString(2));
-            novoUsuario.setData_nascimento(rs.getString(3));
-            novoUsuario.setEmail(rs.getString(4));
-            novoUsuario.setDataregistro(rs.getDate(5));
-            novoUsuario.setUltimologin(rs.getDate(6));
-            novoUsuario.setSenha(rs.getString(7));
-            novoUsuario.setCompleto(rs.getInt(8));
-            rs.next();
-                     
-            listaUsuarios.add(novoUsuario);
-                 }
-               
-                            DefaultListModel modelList = new DefaultListModel();
-                            if(listaUsuarios == null){
-                                JOptionPane.showMessageDialog(null, "Não encontrado.");
-                            }else{
-                            for (Usuario imovel1 : listaUsuarios) {
-                                modelList.addElement(imovel1.toString());
-                            }
-                            jListEventosRecentes.setModel(modelList);}
-                 
-                
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+                String sql = "select * from Usuario  ;";
+                //Executa a query de inserção
+                java.sql.Statement st = conn.createStatement();
+
+                ResultSet rs;
+                rs = st.executeQuery(sql);
+                rs.next();
+                int i = 0;
+                do {
+
+                    Usuario novoUsuario = new Usuario();
+                    novoUsuario.setIdUsuario(rs.getInt(1));
+                    novoUsuario.setNome(rs.getString(2));
+                    novoUsuario.setData_nascimento(rs.getString(3));
+                    novoUsuario.setEmail(rs.getString(4));
+                    novoUsuario.setDataregistro(rs.getDate(5));
+                    novoUsuario.setUltimologin(rs.getDate(6));
+                    novoUsuario.setSenha(rs.getString(7));
+                    novoUsuario.setCompleto(rs.getInt(8));
+                    i = i + 1;
+                    rs.next();
+
+                    listaUsuarios.add(novoUsuario);
+                } while (rs.next() != false);
+                DefaultListModel modelList = new DefaultListModel();
+                if (listaUsuarios == null) {
+                    JOptionPane.showMessageDialog(null, "Não encontrado.");
+                } else {
+                    for (Usuario imovel1 : listaUsuarios) {
+                        modelList.addElement(imovel1.toString());
+                    }
+                    jListEventosRecentes.setModel(modelList);
+                }
+
+            } else {
+                jMenuCompletarCadastro.setBorderPainted(false);
+                jMenuCompletarCadastro.setVisible(false);
+                Banco.completarUsuario = false;
+                Class.forName("com.mysql.jdbc.Driver");
+
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+                String sql = "select * from Usuario  ;";
+                //Executa a query de inserção
+                java.sql.Statement st = conn.createStatement();
+
+                ResultSet rs;
+                rs = st.executeQuery(sql);
+                int i = 0;
+                rs.next();
+                do {
+
+                    Usuario novoUsuario = new Usuario();
+                    novoUsuario.setIdUsuario(rs.getInt(1));
+                    novoUsuario.setNome(rs.getString(2));
+                    novoUsuario.setData_nascimento(rs.getString(3));
+                    novoUsuario.setEmail(rs.getString(4));
+                    novoUsuario.setDataregistro(rs.getDate(5));
+                    novoUsuario.setUltimologin(rs.getDate(6));
+                    novoUsuario.setSenha(rs.getString(7));
+                    novoUsuario.setCompleto(rs.getInt(8));
+                    i = i + 1;
+                    rs.next();
+
+                    listaUsuarios.add(novoUsuario);
+                } while (rs.next() != false);
+                DefaultListModel modelList = new DefaultListModel();
+                if (listaUsuarios == null) {
+                    JOptionPane.showMessageDialog(null, "Não encontrado.");
+                } else {
+                    for (Usuario imovel1 : listaUsuarios) {
+                        modelList.addElement(imovel1.toString());
+                    }
+                    jListEventosRecentes.setModel(modelList);
+                }
+
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
-        
-                         
- 
- 
+
+
     }//GEN-LAST:event_formComponentShown
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
-
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-       
-       
+
+
     }//GEN-LAST:event_formWindowActivated
 
     private void jLabelNomeUsuarioComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabelNomeUsuarioComponentShown
 
              }//GEN-LAST:event_jLabelNomeUsuarioComponentShown
+
+    private void jMenuCompletarCadastroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroMouseEntered
+
+    }//GEN-LAST:event_jMenuCompletarCadastroMouseEntered
+
+    private void jMenuCompletarCadastroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroMouseClicked
+
+        Cadastro perfil = new Cadastro();
+        perfil.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuCompletarCadastroMouseClicked
+
+    private void jMenuCompletarCadastroMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroMenuSelected
+
+    }//GEN-LAST:event_jMenuCompletarCadastroMenuSelected
+
+    private void jMenuPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuPerfilMouseClicked
+
+    }//GEN-LAST:event_jMenuPerfilMouseClicked
+
+    private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
+        Login sair = new Login();
+        sair.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItemSairActionPerformed
+
+    private void jMenuItemEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditarActionPerformed
+        try {
+            Perfil perfil = new Perfil();
+
+            Banco completar = new Banco();
+            if (Banco.isUsuario == true) {
+                perfil.completarUsuario(completar.montarUsuario());
+
+                perfil.setVisible(true);
+                this.dispose();
+            } else {
+                perfil.completar(completar.montarUsuario(), completar.montarProfissional());
+
+                perfil.setVisible(true);
+                this.dispose();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItemEditarActionPerformed
+
+    private void jMenuItemVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVisualizarActionPerformed
+        try {
+            Perfil perfil = new Perfil();
+
+            Banco completar = new Banco();
+            if (Banco.isUsuario == true) {
+                perfil.completarUsuario(completar.montarUsuario());
+                perfil.verifica();
+                
+                perfil.setVisible(true);
+                this.dispose();
+            } else {
+                perfil.completar(completar.montarUsuario(), completar.montarProfissional());
+               perfil.verifica();
+                perfil.setVisible(true);
+                this.dispose();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItemVisualizarActionPerformed
+
+    private void jListEventosRecentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListEventosRecentesMouseClicked
+        if (!javax.swing.SwingUtilities.isRightMouseButton(evt) && !javax.swing.SwingUtilities.isMiddleMouseButton(evt)) {//javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
+            String Profissional = jListEventosRecentes.getSelectedValue();
+            int escolha = Integer.valueOf(JOptionPane.showInputDialog("Selecione uma opção:\n1- Visualizar Perfil\n2- Solicitar serviço\n0- Cancelar"));
+            switch (escolha) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 0:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Digite uma opção válida.");
+                    break;
+            }
+        }
+
+    }//GEN-LAST:event_jListEventosRecentesMouseClicked
+
+    private void jMenuCompletarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroActionPerformed
+        try {
+            Perfil perfil = new Perfil();
+
+            Banco completar = new Banco();
+            if (Banco.isUsuario == true) {
+                perfil.completarUsuario(completar.montarUsuario());
+                perfil.desativarCampos();
+                perfil.setVisible(true);
+                this.dispose();
+            } else {
+                perfil.completar(completar.montarUsuario(), completar.montarProfissional());
+                perfil.desativarCampos();
+                perfil.setVisible(true);
+                this.dispose();
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuCompletarCadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,17 +490,20 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelInicioLogo;
     private javax.swing.JLabel jLabelNomeUsuario;
     private javax.swing.JList<String> jListEventosRecentes;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenu jMenuCompletarCadastro;
+    private javax.swing.JMenu jMenuConta;
+    private javax.swing.JMenuItem jMenuItemEditar;
+    private javax.swing.JMenuItem jMenuItemExcluir;
+    private javax.swing.JMenuItem jMenuItemSair;
+    private javax.swing.JMenuItem jMenuItemVisualizar;
+    private javax.swing.JMenu jMenuPerfil;
+    private javax.swing.JMenu jMenuSolicitacoes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     // End of variables declaration//GEN-END:variables
 }

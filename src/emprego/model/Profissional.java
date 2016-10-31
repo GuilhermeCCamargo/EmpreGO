@@ -9,13 +9,13 @@ package emprego.model;
  *
  * @author gcamargo
  */
-public class Profissional extends Usuario{
-    
+public class Profissional extends Usuario {
+
+    private int idProfissional;
     private int telefoneComercial;
     private String endereco;
     private String experienciaProfissional;
     private String profissao;
-    private int idProfissional;
 
     /**
      * @return the telefoneComercial
@@ -79,5 +79,12 @@ public class Profissional extends Usuario{
     public int getIdProfissional() {
         return idProfissional;
     }
-    
+
+    /**
+     * @param idProfissional the idProfissional to set
+     */
+    public void setIdProfissional(int idProfissional) {
+        this.idProfissional = idProfissional;
+    }
+
 }

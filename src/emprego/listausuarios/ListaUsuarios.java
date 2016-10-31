@@ -70,20 +70,5 @@ public class ListaUsuarios implements InterfaceUsuarios{
 
         return null;
     }
-     public boolean escreverArquivo() {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(System.getProperty("user.dir") + System.getProperty("file.separator") +"listadeusuarios"+ ".csv"));
-
-            for (Usuario user : listausuarios) {
-                bw.write(user.writeFile());
-            }
-
-            bw.close();
-
-            return true;
-        } catch (IOException ex) {
-            Logger.getLogger(ListaUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
+     
 }
