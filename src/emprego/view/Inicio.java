@@ -31,6 +31,7 @@ public class Inicio extends javax.swing.JFrame {
     List<Profissional> listaTabelaProfissional = new ArrayList<>();
     List<Profissional> listaisUsuario = new ArrayList<>();
     List<Profissional> listaFinal = new ArrayList<>();
+
     /**
      * Creates new form Inicio
      */
@@ -43,18 +44,19 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     public Inicio(Usuario usuario) {
-      
-            initComponents();
-            this.setLocationRelativeTo(null);
-            this.setTitle("Empre GO - Início");
-            jMenuCompletarCadastro.setBorderPainted(false);
-            this.usuariologado = usuario;
-            jLabelNomeUsuario.setText(usuariologado.getNome());
-            jLabelDataUltimoLogin.setText(String.valueOf(usuariologado.getUltimologin()));
-            Banco listagem = new Banco();
-            this.listaTabelaProfissional = listagem.listarTabelaProfissional();
-            this.listaisUsuario = listagem.listarIsUsuario();
-            this.listaFinal = listagem.montagemdoProfissional(listaTabelaProfissional, listaisUsuario);
+
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Empre GO - Início");
+        jMenuCompletarCadastro.setBorderPainted(false);
+        this.usuariologado = usuario;
+        Banco listagem = new Banco();
+
+        jLabelNomeUsuario.setText(usuariologado.getNome());
+        jLabelDataUltimoLogin.setText(String.valueOf(usuariologado.getUltimologin()));
+        this.listaTabelaProfissional = listagem.listarTabelaProfissional();
+        this.listaisUsuario = listagem.listarIsUsuario();
+        this.listaFinal = listagem.montagemdoProfissional(listaTabelaProfissional, listaisUsuario);
     }
 
     /**
@@ -268,25 +270,25 @@ public class Inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Por favor, complete seu cadastro.");
             jMenuCompletarCadastro.setBorderPainted(true);
             jMenuCompletarCadastro.setVisible(true);
-             DefaultListModel modelList = new DefaultListModel();
-        
-        for(Profissional  profissional: listaFinal){
-            modelList.addElement(profissional.toString());
-        }
-        jListEventosRecentes.setModel(modelList);
-            
+            DefaultListModel modelList = new DefaultListModel();
+
+            for (Profissional profissional : listaFinal) {
+                modelList.addElement(profissional.toString());
+            }
+            jListEventosRecentes.setModel(modelList);
+
         } else {
-            
-                jMenuCompletarCadastro.setBorderPainted(false);
-                jMenuCompletarCadastro.setEnabled(false);
-                jMenuCompletarCadastro.setVisible(false);
-               DefaultListModel modelList = new DefaultListModel();
-        
-        for(Profissional  profissional: listaFinal){
-            modelList.addElement(profissional.toString());
-        }
-        jListEventosRecentes.setModel(modelList);
-             
+
+            jMenuCompletarCadastro.setBorderPainted(false);
+            jMenuCompletarCadastro.setEnabled(false);
+            jMenuCompletarCadastro.setVisible(false);
+            DefaultListModel modelList = new DefaultListModel();
+
+            for (Profissional profissional : listaFinal) {
+                modelList.addElement(profissional.toString());
+            }
+            jListEventosRecentes.setModel(modelList);
+
         }
 
 
@@ -310,94 +312,63 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditarActionPerformed
-        try {
-            Banco completar = new Banco();
-            if (usuariologado.getIsUsuario() != 0) {
-                Perfil perfil = new Perfil();
-                Profissional profissional = completar.montarProfissional(usuariologado.getIdUsuario());
-                perfil.completar(usuariologado, profissional);
-                perfil.setVisible(true);
-                this.dispose();
-            } else {
-                Perfil perfil = new Perfil(usuariologado);
-                perfil.setVisible(true);
-                this.dispose();
-                           }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        Perfil perfil = new Perfil(usuariologado, true);
+        perfil.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_jMenuItemEditarActionPerformed
 
     private void jMenuItemVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVisualizarActionPerformed
-       
-           try {
-            Banco completar = new Banco();
-            if (usuariologado.getIsUsuario() != 0) {
-                Perfil perfil = new Perfil();
-                Profissional profissional = completar.montarProfissional(usuariologado.getIdUsuario());
-                perfil.completar(usuariologado, profissional);
-                perfil.desativarCampos();
-                perfil.setVisible(true);
-                this.dispose();
-            } else {
-                Perfil perfil = new Perfil(usuariologado);
-                perfil.desativarCampos();
-                perfil.setVisible(true);
-                this.dispose();
-                           }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
+
+        Perfil visualizar = new Perfil(usuariologado, false);
+        visualizar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItemVisualizarActionPerformed
 
     private void jListEventosRecentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListEventosRecentesMouseClicked
         if (listaFinal.size() > 0) {
             if (!javax.swing.SwingUtilities.isRightMouseButton(evt) && !javax.swing.SwingUtilities.isMiddleMouseButton(evt)) {
-               
-                    //javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
-                    String Profissional = jListEventosRecentes.getSelectedValue();
-                    int escolha = Integer.valueOf(JOptionPane.showInputDialog("Selecione uma opção:\n1- Visualizar Perfil\n2- Solicitar serviço\n0- Cancelar"));
-                    switch (escolha) {
-                        case 1:
-                            int codigo = getCod(Profissional);
-                            Banco ajuda = new Banco();
-                            Usuario auxiliar = null;
-                            Perfil visualizar = new Perfil();
-                            for (int i = 0; i < listaFinal.size(); i++) {
-                                if (listaFinal.get(i).getIdUsuario() == codigo) {
-                                    auxiliar = listaFinal.get(i);
-                                }
-                            }
-                            
-                            this.dispose();
-                            break;
-                        case 2:
-                            int codigoProfissional = getCod(Profissional);
-                            
-                            this.dispose();
 
-                            break;
-                        case 0:
-                            break;
-                        default:
-                            JOptionPane.showMessageDialog(null, "Digite uma opção válida.");
-                            break;
-                    }
-               
+                //javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
+                String Profissional = jListEventosRecentes.getSelectedValue();
+                int escolha = Integer.valueOf(JOptionPane.showInputDialog("Selecione uma opção:\n1- Visualizar Perfil\n2- Solicitar serviço\n0- Cancelar"));
+                switch (escolha) {
+                    case 1:
+                        int codigo = getCod(Profissional);
+                        Banco procura = new Banco();
+                        Profissional profissionalDesejado = procura.procuraProfissional(listaFinal, codigo);
+                        Perfil visualizar = new Perfil(usuariologado, profissionalDesejado);
+                        visualizar.setVisible(true);
+                        this.dispose();
+                        break;
+                    case 2:
+                        int codigoProfissional = getCod(Profissional);
+                        Solicitacao solicitar = new Solicitacao(usuariologado,listaFinal,codigoProfissional);
+                        solicitar.setVisible(true);
+                        this.dispose();
+
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Digite uma opção válida.");
+                        break;
+                }
+
             }
         } else {
             JOptionPane.showMessageDialog(null, "No momento ainda não existe profissional cadastrado.");
-     
+
 
     }//GEN-LAST:event_jListEventosRecentesMouseClicked
     }
     private void jMenuCompletarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroActionPerformed
-       
-            Cadastro completar = new Cadastro(usuariologado);
-            completar.setVisible(true);
-            this.dispose();
-       
+
+        Cadastro completar = new Cadastro(usuariologado);
+        completar.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_jMenuCompletarCadastroActionPerformed
 
     /**

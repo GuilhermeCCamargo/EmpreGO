@@ -7,6 +7,7 @@ package emprego.view;
 
 import emprego.Banco;
 import emprego.listausuarios.ListaUsuarios;
+import emprego.model.Profissional;
 import emprego.model.Usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,8 +25,6 @@ import java.util.logging.Logger;
  */
 public class Login extends javax.swing.JFrame {
 
-    private ListaUsuarios listausuarios;
-    List<Usuario> listadeusuarios = new ArrayList<>();
     private String campovazio = "Por favor, preencha todos os campos.";
 
     public Login() {
@@ -266,7 +265,8 @@ public class Login extends javax.swing.JFrame {
         if (email.equals("") || senha.equals("")) {
             JOptionPane.showMessageDialog(null, "Preencha os campos para logar no sistema.");
         } else {
-            usuariologado = login.Login(email, senha);
+            
+            usuariologado = login.Login(email,senha);
             if(usuariologado != null){
             Inicio inicio = new Inicio(usuariologado);
             inicio.setVisible(true);

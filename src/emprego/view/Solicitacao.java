@@ -8,6 +8,8 @@ package emprego.view;
 import emprego.Banco;
 import emprego.model.Profissional;
 import emprego.model.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,21 +19,24 @@ import javax.swing.JOptionPane;
  * @author gcamargo
  */
 public class Solicitacao extends javax.swing.JFrame {
-    
+    List<Profissional> listaprofissional = new ArrayList<>();
     Usuario usuariologado;
     Profissional profissional;
     int codigoProfissional;
     /**
      * Creates new form Solicitacao
      */
-    public Solicitacao(Profissional profissional,Usuario usuario) {
+    public Solicitacao(Usuario usuario,List<Profissional> listaprofissional,int codigo) {
         initComponents();
-     this.profissional = profissional;
+     this.listaprofissional = listaprofissional;
      this.usuariologado = usuario;
-     this.codigoProfissional = codigoProfissional;
+     this.codigoProfissional = codigo;
+     Banco montarprofissional = new Banco();
+     Profissional profissionall = montarprofissional.procuraProfissional(listaprofissional, codigoProfissional);
+     this.profissional = profissionall;
      jLabelEmaildoProfissional.setText(profissional.getEmail());
      jLabelNomeProfissional.setText(profissional.getNome());
-     jLabelTelefoneProfissional.setText(String.valueOf(profissional.getTelefone()));
+     jLabelTelefoneProfissional.setText(String.valueOf(profissional.getTelefone()));    
        
         
     }
@@ -154,7 +159,7 @@ public Solicitacao() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
-        Inicio voltar = new Inicio();
+        Inicio voltar = new Inicio(usuariologado);
         voltar.setVisible(true);
         this.dispose();
         

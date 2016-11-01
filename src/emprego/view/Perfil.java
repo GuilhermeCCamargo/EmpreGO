@@ -15,7 +15,9 @@ import emprego.model.Usuario;
  */
 public class Perfil extends javax.swing.JFrame {
 
+    Profissional profissionaldesejado = new Profissional();
     Usuario usuariologado = new Usuario();
+
     /**
      * Creates new form Perfil
      */
@@ -24,22 +26,68 @@ public class Perfil extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Perfil");
     }
-    public Perfil(Usuario usuario) {
+
+    public Perfil(Usuario usuario, boolean editar) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Perfil");
         this.usuariologado = usuario;
-        jTextFieldPerfilNome.setText(usuariologado.getNome());
-        jTextFieldDataNascimento.setText(usuariologado.getData_Nascimento());
-        jTextFieldPerfilEmail.setText(usuariologado.getEmail());
-        jTextFieldPerfilEndereco.setText(usuariologado.getEndereco());
-        jTextFieldPerfilTelefone.setText(String.valueOf(usuariologado.getTelefone()));
-        jTextFieldPerfilProfissao.setEnabled(false);
-        jTextFieldPerfilProfissao.setVisible(false);
-        jTextAreaPerfilExperienciaDescricao.setEnabled(false);
-        jTextAreaPerfilExperienciaDescricao.setVisible(false);
-        jLabelPerfilProfissao.setVisible(false);
-        jLabelPerfilExperienciaDescricao.setVisible(false);
+        if (editar != true) {
+            jTextFieldPerfilNome.setText(usuariologado.getNome());
+            jTextFieldDataNascimento.setText(usuariologado.getData_Nascimento());
+            jTextFieldPerfilEmail.setText(usuariologado.getEmail());
+            jTextFieldPerfilEndereco.setText(usuariologado.getEndereco());
+            jTextFieldPerfilTelefone.setText(String.valueOf(usuariologado.getTelefone()));
+            //jTextFieldPerfilProfissao.setText(usuariologado.getProfissao());
+            //jTextAreaPerfilExperienciaDescricao.setText(usuariologado.getExperienciaProfissional());
+            jTextFieldPerfilNome.setEditable(false);
+            jTextFieldDataNascimento.setEditable(false);
+            jTextFieldPerfilEmail.setEditable(false);
+            jTextFieldPerfilEndereco.setEditable(false);
+            jTextFieldPerfilTelefone.setEditable(false);
+            jTextFieldPerfilProfissao.setEditable(false);
+            jTextFieldPerfilProfissao.setEditable(false);
+            jTextAreaPerfilExperienciaDescricao.setEditable(false);
+            jButtonPerfilSalvar.setVisible(false);
+
+        } else {
+            jTextFieldPerfilNome.setText(usuariologado.getNome());
+            jTextFieldDataNascimento.setText(usuariologado.getData_Nascimento());
+            jTextFieldPerfilEmail.setText(usuariologado.getEmail());
+            jTextFieldPerfilEndereco.setText(usuariologado.getEndereco());
+            jTextFieldPerfilTelefone.setText(String.valueOf(usuariologado.getTelefone()));
+            jTextFieldPerfilProfissao.setEnabled(true);
+            jTextFieldPerfilProfissao.setVisible(true);
+            jTextAreaPerfilExperienciaDescricao.setEnabled(true);
+            jTextAreaPerfilExperienciaDescricao.setVisible(true);
+            jTextFieldPerfilNome.setEditable(true);
+            jTextFieldDataNascimento.setEditable(true);
+            jTextFieldPerfilEmail.setEditable(true);
+            jTextFieldPerfilEndereco.setEditable(true);
+            jTextFieldPerfilTelefone.setEditable(true);
+            jTextFieldPerfilProfissao.setEditable(true);
+            jTextFieldPerfilProfissao.setEditable(true);
+            jTextAreaPerfilExperienciaDescricao.setEditable(true);
+            jTextAreaPerfilExperienciaDescricao.setEditable(true);
+            jButtonPerfilSalvar.setVisible(true);
+
+        }
+    }
+
+    public Perfil(Usuario usuario, Profissional profissional) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Empre GO - Perfil");
+        this.usuariologado = usuario;
+        this.profissionaldesejado = profissional;
+        jTextFieldPerfilNome.setText(profissionaldesejado.getNome());
+        jTextFieldDataNascimento.setText(profissionaldesejado.getData_Nascimento());
+        jTextFieldPerfilEmail.setText(profissionaldesejado.getEmail());
+        jTextFieldPerfilEndereco.setText(profissionaldesejado.getEndereco());
+        jTextFieldPerfilTelefone.setText(String.valueOf(profissionaldesejado.getTelefone()));
+        jTextFieldPerfilProfissao.setText(profissionaldesejado.getProfissao());
+        jTextAreaPerfilExperienciaDescricao.setText(profissionaldesejado.getExperienciaProfissional());
+        desativarCampos();
     }
 
     /**
@@ -97,6 +145,11 @@ public class Perfil extends javax.swing.JFrame {
 
         jButtonPerfilSalvar.setText("Salvar");
         jButtonPerfilSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButtonPerfilSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPerfilSalvarActionPerformed(evt);
+            }
+        });
 
         jLabelDatanascimento.setText("Data de Nascimento:");
 
@@ -257,51 +310,25 @@ public class Perfil extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuVoltarMouseClicked
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
-        Inicio voltar = new Inicio();      
+        Inicio voltar = new Inicio(usuariologado);
         voltar.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-       
+
     }//GEN-LAST:event_formComponentShown
-    public void verifica(){
-         if (Banco.isUsuario == true) {            
-            jTextFieldPerfilNome.setEditable(false);
-            jTextFieldDataNascimento.setEditable(false);
-            jTextFieldPerfilEmail.setEditable(false);
-            jTextFieldPerfilEndereco.setEditable(false);
-            jTextFieldPerfilTelefone.setEditable(false);
-            jTextFieldPerfilProfissao.setEditable(false);
-            jTextAreaPerfilExperienciaDescricao.setEditable(false);
-            jTextFieldPerfilProfissao.setEnabled(false);
-            jTextAreaPerfilExperienciaDescricao.setEnabled(false);
-            jLabelPerfilProfissao.setEnabled(false);
-            jLabelPerfilExperienciaDescricao.setEnabled(false);
-            jTextFieldPerfilProfissao.setVisible(false);
-            jTextAreaPerfilExperienciaDescricao.setVisible(false);
-            jLabelPerfilProfissao.setVisible(false);
-            jLabelPerfilExperienciaDescricao.setVisible(false);
-            jButtonPerfilSalvar.setVisible(false);
-        } else {
-            jTextFieldPerfilNome.setEditable(false);
-            jTextFieldDataNascimento.setEditable(false);
-            jTextFieldPerfilEmail.setEditable(false);
-            jTextFieldPerfilEndereco.setEditable(false);
-            jTextFieldPerfilTelefone.setEditable(false);
-            jTextFieldPerfilProfissao.setEditable(false);
-            jTextAreaPerfilExperienciaDescricao.setEditable(false);
-            jTextFieldPerfilProfissao.setEnabled(true);
-            jTextAreaPerfilExperienciaDescricao.setEnabled(true);
-            jLabelPerfilProfissao.setEnabled(true);
-            jLabelPerfilExperienciaDescricao.setEnabled(true);
-            jTextFieldPerfilProfissao.setVisible(true);
-            jTextAreaPerfilExperienciaDescricao.setVisible(true);
-            jLabelPerfilProfissao.setVisible(true);
-            jLabelPerfilExperienciaDescricao.setVisible(true);
-            jButtonPerfilSalvar.setVisible(false);
-        }
-    }
+
+    private void jButtonPerfilSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPerfilSalvarActionPerformed
+        String nome = jTextFieldPerfilNome.getText();
+        String dataNascimento = jTextFieldDataNascimento.getText();
+        String email = jTextFieldPerfilEmail.getText();
+        String endereco = jTextFieldPerfilEndereco.getText();
+        int telefone = Integer.valueOf(jTextFieldPerfilTelefone.getText());
+        String profissao = jTextFieldPerfilProfissao.getText();
+        String descricao = jTextAreaPerfilExperienciaDescricao.getText();
+    }//GEN-LAST:event_jButtonPerfilSalvarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -336,7 +363,7 @@ public class Perfil extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void completar(Usuario usuario, Profissional profissional) {
         jTextFieldPerfilNome.setText(usuario.getNome());
         jTextFieldDataNascimento.setText(usuario.getData_Nascimento());
@@ -345,11 +372,11 @@ public class Perfil extends javax.swing.JFrame {
         jTextFieldPerfilTelefone.setText(String.valueOf(usuario.getTelefone()));
         jTextFieldPerfilProfissao.setText(profissional.getProfissao());
         jTextAreaPerfilExperienciaDescricao.setText(profissional.getExperienciaProfissional());
-        
+
     }
-     
+
     public void desativarCampos() {
-        
+        jTextFieldDataNascimento.setEditable(false);
         jTextFieldPerfilNome.setEditable(false);
         jTextFieldPerfilEmail.setEditable(false);
         jTextFieldPerfilEndereco.setEditable(false);
@@ -357,7 +384,19 @@ public class Perfil extends javax.swing.JFrame {
         jTextFieldPerfilProfissao.setEditable(false);
         jTextAreaPerfilExperienciaDescricao.setEditable(false);
         jButtonPerfilSalvar.setVisible(false);
-        
+
+    }
+
+    public void ativarCampos() {
+        jTextFieldDataNascimento.setEditable(true);
+        jTextFieldPerfilNome.setEditable(true);
+        jTextFieldPerfilEmail.setEditable(true);
+        jTextFieldPerfilEndereco.setEditable(true);
+        jTextFieldPerfilTelefone.setEditable(true);
+        jTextFieldPerfilProfissao.setEditable(true);
+        jTextAreaPerfilExperienciaDescricao.setEditable(true);
+        jButtonPerfilSalvar.setVisible(true);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

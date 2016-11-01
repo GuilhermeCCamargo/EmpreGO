@@ -275,13 +275,30 @@ public class Banco implements InterfaceBanco {
 
     @Override
     public Profissional procuraProfissional(List<Profissional> lista, int codigo) {
-        Profissional encontrado = null;
+      Profissional encontrado = new Profissional();
         for (int i = 0; i < lista.size(); i++) {
             if (lista.get(i).getIdUsuario() == codigo) {
-                encontrado = lista.get(i);
+                encontrado.setIdUsuario(lista.get(i).getIdUsuario());
+                encontrado.setNome(lista.get(i).getNome());
+                encontrado.setData_nascimento(lista.get(i).getData_Nascimento());
+                encontrado.setEmail(lista.get(i).getEmail());
+                encontrado.setDataregistro(lista.get(i).getDataregistro());
+                encontrado.setUltimologin(lista.get(i).getUltimologin());
+                encontrado.setSenha(lista.get(i).getSenha());
+                encontrado.setCompleto(lista.get(i).getCompleto());
+                encontrado.setTelefone(lista.get(i).getTelefone());
+                encontrado.setEndereco(lista.get(i).getEndereco());
+                encontrado.setIsUsuario(lista.get(i).getIsUsuario());
+                encontrado.setIdProfissional(lista.get(i).getIdProfissional());
+                encontrado.setExperienciaProfissional(lista.get(i).getExperienciaProfissional());
+                encontrado.setProfissao(lista.get(i).getProfissao());
             }
         }
+        if(encontrado != null){
         return encontrado;
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -342,36 +359,36 @@ public class Banco implements InterfaceBanco {
             rs.next();
             List<Profissional> listadeprofissionais = new ArrayList<>();
 
-            if(rs != null){
-            do {
+            if (rs != null) {
+                do {
 
-                Profissional novoUsuario = new Profissional();
-                novoUsuario.setIdUsuario(rs.getInt(1));
-                novoUsuario.setNome(rs.getString(2));
-                novoUsuario.setData_nascimento(rs.getString(3));
-                novoUsuario.setEmail(rs.getString(4));
-                novoUsuario.setDataregistro(rs.getDate(5));
-                novoUsuario.setUltimologin(rs.getDate(6));
-                novoUsuario.setSenha(rs.getString(7));
-                novoUsuario.setCompleto(rs.getInt(8));
-                novoUsuario.setTelefone(rs.getInt(9));
-                novoUsuario.setEndereco(rs.getString(10));
-                novoUsuario.setIsUsuario(rs.getInt(11));
-                listadeprofissionais.add(novoUsuario);
-            } while (rs.next() != false);
-            return listadeprofissionais;
-            }else{
-                            return null;
+                    Profissional novoUsuario = new Profissional();
+                    novoUsuario.setIdUsuario(rs.getInt(1));
+                    novoUsuario.setNome(rs.getString(2));
+                    novoUsuario.setData_nascimento(rs.getString(3));
+                    novoUsuario.setEmail(rs.getString(4));
+                    novoUsuario.setDataregistro(rs.getDate(5));
+                    novoUsuario.setUltimologin(rs.getDate(6));
+                    novoUsuario.setSenha(rs.getString(7));
+                    novoUsuario.setCompleto(rs.getInt(8));
+                    novoUsuario.setTelefone(rs.getInt(9));
+                    novoUsuario.setEndereco(rs.getString(10));
+                    novoUsuario.setIsUsuario(rs.getInt(11));
+                    listadeprofissionais.add(novoUsuario);
+                } while (rs.next() != false);
+                return listadeprofissionais;
+            } else {
+                return null;
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
+
     }
 
-    public List<Profissional> listarTabelaProfissional(){
-        
+    public List<Profissional> listarTabelaProfissional() {
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
@@ -381,46 +398,62 @@ public class Banco implements InterfaceBanco {
             ResultSet res;
             res = st.executeQuery(sqlprof);
             res.next();
-           if(res != null){
-            do{
-                Profissional profissional = new Profissional();
-                profissional.setIdProfissional(res.getInt(1));
-                profissional.setIdUsuario(res.getInt(2));
-                profissional.setExperienciaProfissional(res.getString(3));
-                profissional.setProfissao(res.getString(4));
-                listaTabela.add(profissional);
-            }while(res.next() != false);
-            return listaTabela;
-           }else{
-               return null;
-           }
+            if (res != null) {
+                do {
+                    Profissional profissional = new Profissional();
+                    profissional.setIdProfissional(res.getInt(1));
+                    profissional.setIdUsuario(res.getInt(2));
+                    profissional.setExperienciaProfissional(res.getString(3));
+                    profissional.setProfissao(res.getString(4));
+                    listaTabela.add(profissional);
+                } while (res.next() != false);
+                return listaTabela;
+            } else {
+                return null;
+            }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        
-        
+
     }
-    public List<Profissional> montagemdoProfissional(List<Profissional> listaTabelaProfissional, List<Profissional> listaIsUsuario){
+
+    public List<Profissional> montagemdoProfissional(List<Profissional> listaTabelaProfissional, List<Profissional> listaIsUsuario) {
         int sizeTabela = listaTabelaProfissional.size();
         int sizeIsUsuario = listaIsUsuario.size();
         List<Profissional> listamontada = new ArrayList<>();
-        for (int i = 0; i < sizeTabela; i++){
-            for (int j = 0; j < sizeIsUsuario; j++){
-                if(listaTabelaProfissional.get(i).getIdUsuario() == listaIsUsuario.get(j).getIdUsuario()){
-                   Profissional auxiliar = listaIsUsuario.get(j);
-                   auxiliar.setProfissao(listaTabelaProfissional.get(i).getProfissao());
-                   auxiliar.setExperienciaProfissional(listaTabelaProfissional.get(i).getExperienciaProfissional());
-                   listamontada.add(auxiliar);
+        for (int i = 0; i < sizeTabela; i++) {
+            for (int j = 0; j < sizeIsUsuario; j++) {
+                if (listaTabelaProfissional.get(i).getIdUsuario() == listaIsUsuario.get(j).getIdUsuario()) {
+                    Profissional auxiliar = listaIsUsuario.get(j);
+                    auxiliar.setProfissao(listaTabelaProfissional.get(i).getProfissao());
+                    auxiliar.setExperienciaProfissional(listaTabelaProfissional.get(i).getExperienciaProfissional());
+                    listamontada.add(auxiliar);
                 }
             }
-            
+
         }
-        if(listamontada.size() != 0){
+        if (listamontada.size() != 0) {
             return listamontada;
-        }else{
+        } else {
             return null;
         }
     }
-    
+
+    public Profissional identificaUsuario(Usuario usuario, List<Profissional> listaProfissionais) {
+        Profissional profissionalidentificado = new Profissional();
+        profissionalidentificado = (Profissional) usuario;
+        for (int i = 0; i < listaProfissionais.size(); i++) {
+            if (listaProfissionais.get(i).getIdUsuario() == profissionalidentificado.getIdUsuario()) {
+                profissionalidentificado.setProfissao(listaProfissionais.get(i).getProfissao());
+                profissionalidentificado.setExperienciaProfissional(listaProfissionais.get(i).getExperienciaProfissional());
+
+            }
+        }
+        if (profissionalidentificado.getProfissao() == null || profissionalidentificado.getExperienciaProfissional() == null) {
+            return null;
+        } else {
+            return profissionalidentificado;
+        }
+    }
 }

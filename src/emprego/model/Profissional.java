@@ -13,7 +13,7 @@ public class Profissional extends Usuario {
 
     @Override
     public String toString() {
-        return getIdUsuario()+" - "+"Nome: " + getNome()+" - "+"Profissão: " + getProfissao() + " - "+"Experiência: " + getExperienciaProfissional() ;
+        return getIdUsuario()+" - "+"Nome: " + getNome()+" - "+"Profissão: " + getProfissao();
     }
     
     private int idProfissional;
