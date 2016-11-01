@@ -16,7 +16,11 @@ import javax.swing.JOptionPane;
  * @author gcamargo
  */
 public class Cadastro extends javax.swing.JFrame {
+
     Usuario usuariologado = new Usuario();
+    private int clicado = 0;
+    private boolean isProfissional = false;
+
     /**
      * Creates new form Cadastro
      */
@@ -25,11 +29,17 @@ public class Cadastro extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Cadastro");
     }
-     public Cadastro(Usuario usuario) {
+
+    public Cadastro(Usuario usuario) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Cadastro");
         this.usuariologado = usuario;
+        jTextFieldCadastroNome.setText(usuariologado.getNome());
+        jTextFieldDataNascimento.setText(usuariologado.getData_Nascimento());
+        jTextFieldCadastroEmail.setText(usuariologado.getEmail());
+        jTextFieldCadastroEndereco.setText(usuariologado.getEndereco());
+        jTextFieldCadastroTelefone.setText(String.valueOf(usuariologado.getTelefone()));
     }
 
     /**
@@ -216,61 +226,95 @@ public class Cadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCompletarVoltarActionPerformed
 
     private void jButtonCompletarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompletarCadastroActionPerformed
-
-            String nome = jTextFieldCadastroNome.getText();
-            String dataNascimento = jTextFieldDataNascimento.getText();
-            String email = jTextFieldCadastroEmail.getText();
-            String endereco = jTextFieldCadastroEndereco.getText();
-            int telefone = Integer.valueOf(jTextFieldCadastroTelefone.getText());
-            String profissao = jTextFieldCadastroProfissao.getText();
-            String experiencia = jTextAreaCadastroExperienciaDescricao.getText();
-        try {
-           
-            Banco completar = new Banco();
-            if (Banco.isUsuario == true) {
-                try {
-                    completar.completarCadastro(nome, dataNascimento, email, endereco, telefone);
-                    JOptionPane.showMessageDialog(null, "Parabéns,Você completou seu perfil.");
-                    Banco.completarUsuario = false;
-                    Inicio voltar = new Inicio();
-                    voltar.setVisible(true);
-                    this.dispose();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            } else {
-                try {
-                    completar.completarCadastroUsuario(nome, dataNascimento, email, endereco, telefone);
-                    completar.completarCadastroProfissional(experiencia, profissao);
-                    JOptionPane.showMessageDialog(null, "Parabéns,Você completou seu perfil.");
-                    Banco.completarUsuario = false;
-                    Inicio voltar = new Inicio();
-                    voltar.setVisible(true);
-                    this.dispose();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+       if(isProfissional == true){
+           try {
+               Banco salvarUsuario = new Banco();
+               String nome = jTextFieldCadastroNome.getText();
+               String dataNascimento = jTextFieldDataNascimento.getText();
+               String email = jTextFieldCadastroEmail.getText();
+               String endereco = jTextFieldCadastroEndereco.getText();
+               int telefone = Integer.valueOf(jTextFieldCadastroTelefone.getText());
+              if(salvarUsuario.completarCadastroUsuario(nome, dataNascimento, email, endereco, telefone, usuariologado.getIdUsuario())){
+                  JOptionPane.showMessageDialog(null, "Cadastro Completo.");
+                  Inicio voltar = new Inicio();
+                  voltar.setVisible(true);
+                  this.dispose();
+              }else{
+                  JOptionPane.showMessageDialog(null,"Não foi possível completar teu cadastro.");
+              }
+           } catch (ClassNotFoundException ex) {
+               Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex+"\n\nVerifique as configurações do serv idor Mysql");
+           }
+       }else{
+           try {
+               String nome = jTextFieldCadastroNome.getText();
+               String dataNascimento = jTextFieldDataNascimento.getText();
+               String email = jTextFieldCadastroEmail.getText();
+               String endereco = jTextFieldCadastroEndereco.getText();
+               int telefone = Integer.valueOf(jTextFieldCadastroTelefone.getText());
+               String profissao = jTextFieldCadastroProfissao.getText();
+               String experiencia = jTextAreaCadastroExperienciaDescricao.getText();
+               Banco salvarUsuario = new Banco();
+               if(salvarUsuario.completarCadastroUsuarioPro(nome, dataNascimento, email, endereco, telefone, usuariologado.getIdUsuario())){
+                  if(salvarUsuario.completarCadastroProfissional(experiencia, profissao, usuariologado.getIdUsuario())){
+                      JOptionPane.showMessageDialog(null,"Cadastro efetuado com sucesso.");
+                      Inicio voltar = new Inicio();
+                  voltar.setVisible(true);
+                  this.dispose();
+                  }else{
+                      JOptionPane.showMessageDialog(null,"Não foi possível inserir suas informações profissionais.");
+                  }
+               }else{
+                   JOptionPane.showMessageDialog(null,"Não foi possível completar teu cadastro.");
+               }
+           } catch (ClassNotFoundException ex) {
+               Logger.getLogger(Cadastro.class.getName()).log(Level.SEVERE, null, ex);
+           }
+                   }      
+          
+       
     }//GEN-LAST:event_jButtonCompletarCadastroActionPerformed
+//<editor-fold defaultstate="collapsed" desc="Evento jCheckBoxSolicitacoesActionPerformed">
 
     private void jCheckBoxSolicitacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxSolicitacoesActionPerformed
-        jTextAreaCadastroExperienciaDescricao.setVisible(true);
-        jLabelCadastroProfissao.setVisible(true);
-        jLabelCadastroExperienciaDescricao.setVisible(true);
-        jTextFieldCadastroProfissao.setVisible(true);
-        jTextAreaCadastroExperienciaDescricao.setEnabled(true);
-        jLabelCadastroProfissao.setEnabled(true);
-        jLabelCadastroExperienciaDescricao.setEnabled(true);
-        jTextFieldCadastroProfissao.setEnabled(true);
-        Banco.isUsuario = false;
+
+        //<editor-fold defaultstate="collapsed" desc="Este método é reponsavel por disponibilizar os campos exclusivos para usuários que queiram se cadastrar como profissional">
+        if (clicado != 0) {
+            jTextAreaCadastroExperienciaDescricao.setVisible(false);
+            jLabelCadastroProfissao.setVisible(false);
+            jLabelCadastroExperienciaDescricao.setVisible(false);
+            jTextFieldCadastroProfissao.setVisible(false);
+            jTextAreaCadastroExperienciaDescricao.setEnabled(false);
+            jLabelCadastroProfissao.setEnabled(false);
+            jLabelCadastroExperienciaDescricao.setEnabled(false);
+            jTextFieldCadastroProfissao.setEnabled(false);
+            clicado = 0;
+            this.isProfissional = true;
+            System.out.println(isProfissional);
+        } else {
+            jTextAreaCadastroExperienciaDescricao.setVisible(true);
+            jLabelCadastroProfissao.setVisible(true);
+            jLabelCadastroExperienciaDescricao.setVisible(true);
+            jTextFieldCadastroProfissao.setVisible(true);
+            jTextAreaCadastroExperienciaDescricao.setEnabled(true);
+            jLabelCadastroProfissao.setEnabled(true);
+            jLabelCadastroExperienciaDescricao.setEnabled(true);
+            jTextFieldCadastroProfissao.setEnabled(true);
+            clicado = 1;
+            this.isProfissional = false;
+        }
+        //</editor-fold>
+
     }//GEN-LAST:event_jCheckBoxSolicitacoesActionPerformed
 
+//</editor-fold>   
+    
+//<editor-fold defaultstate="collapsed" desc="Evento FormComponentShown">    
+
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+
+        //<editor-fold defaultstate="collapsed" desc="Desativando Campos exclusivos para Profissional">
         jTextAreaCadastroExperienciaDescricao.setVisible(false);
         jLabelCadastroProfissao.setVisible(false);
         jLabelCadastroExperienciaDescricao.setVisible(false);
@@ -279,12 +323,25 @@ public class Cadastro extends javax.swing.JFrame {
         jLabelCadastroProfissao.setEnabled(false);
         jLabelCadastroExperienciaDescricao.setEnabled(false);
         jTextFieldCadastroProfissao.setEnabled(false);
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Pré carregando informações já salvas do usuário">
+        jTextFieldCadastroNome.setText(usuariologado.getNome());
+        jTextFieldCadastroEmail.setText(usuariologado.getEmail());
+        //</editor-fold>
+
     }//GEN-LAST:event_formComponentShown
 
+//</editor-fold>   
+    
+//<editor-fold defaultstate="collapsed" desc="Garantindo a inserção de caracteres numéricos">
+
     private void jTextFieldCadastroTelefoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldCadastroTelefoneKeyTyped
-        soNumeros(evt,false);
+        soNumeros(evt, false);
     }//GEN-LAST:event_jTextFieldCadastroTelefoneKeyTyped
 
+//</editor-fold>
+    
     /**
      * @param args the command line arguments
      */
@@ -320,6 +377,7 @@ public class Cadastro extends javax.swing.JFrame {
         });
     }
 
+//<editor-fold defaultstate="collapsed" desc="Método que impossibilita a inserção de caracteres não numéricos através do consume">    
     private void soNumeros(java.awt.event.KeyEvent evt, boolean isDouble) {
         char ch = evt.getKeyChar();
         if (isDouble) {
@@ -334,6 +392,7 @@ public class Cadastro extends javax.swing.JFrame {
             evt.consume();
         }
     }
+//</editor-fold>
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCompletarCadastro;

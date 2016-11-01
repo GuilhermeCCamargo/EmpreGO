@@ -15,6 +15,7 @@ import emprego.model.Usuario;
  */
 public class Perfil extends javax.swing.JFrame {
 
+    Usuario usuariologado = new Usuario();
     /**
      * Creates new form Perfil
      */
@@ -22,6 +23,23 @@ public class Perfil extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Empre GO - Perfil");
+    }
+    public Perfil(Usuario usuario) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Empre GO - Perfil");
+        this.usuariologado = usuario;
+        jTextFieldPerfilNome.setText(usuariologado.getNome());
+        jTextFieldDataNascimento.setText(usuariologado.getData_Nascimento());
+        jTextFieldPerfilEmail.setText(usuariologado.getEmail());
+        jTextFieldPerfilEndereco.setText(usuariologado.getEndereco());
+        jTextFieldPerfilTelefone.setText(String.valueOf(usuariologado.getTelefone()));
+        jTextFieldPerfilProfissao.setEnabled(false);
+        jTextFieldPerfilProfissao.setVisible(false);
+        jTextAreaPerfilExperienciaDescricao.setEnabled(false);
+        jTextAreaPerfilExperienciaDescricao.setVisible(false);
+        jLabelPerfilProfissao.setVisible(false);
+        jLabelPerfilExperienciaDescricao.setVisible(false);
     }
 
     /**
@@ -329,17 +347,7 @@ public class Perfil extends javax.swing.JFrame {
         jTextAreaPerfilExperienciaDescricao.setText(profissional.getExperienciaProfissional());
         
     }
-    
-    public void completarUsuario(Usuario usuario) {
-        jTextFieldPerfilNome.setText(usuario.getNome());
-        jTextFieldPerfilEmail.setText(usuario.getEmail());
-        jTextFieldPerfilTelefone.setText(String.valueOf(usuario.getTelefone()));
-        jTextFieldPerfilEndereco.setText(String.valueOf(usuario.getEndereco()));
-        jTextFieldDataNascimento.setText(usuario.getData_Nascimento());
-        
-    }
-   
-    
+     
     public void desativarCampos() {
         
         jTextFieldPerfilNome.setEditable(false);

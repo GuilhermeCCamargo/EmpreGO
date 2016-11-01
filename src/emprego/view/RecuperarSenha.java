@@ -34,7 +34,6 @@ public class RecuperarSenha extends javax.swing.JFrame {
         jTextFieldRecoveryEmail = new javax.swing.JTextField();
         jLabelRecoveryDataNascimento = new javax.swing.JLabel();
         jTextFieldRecoveryDataNascimento = new javax.swing.JTextField();
-        jLabelRecoveryPerguntaSecreta = new javax.swing.JLabel();
         jLabelRecoveryResposta = new javax.swing.JLabel();
         jTextFieldRecoveryResposta = new javax.swing.JTextField();
         jButtonRecoveryVoltar = new javax.swing.JButton();
@@ -49,11 +48,14 @@ public class RecuperarSenha extends javax.swing.JFrame {
 
         jLabelRecoveryDataNascimento.setText("Data de Nascimento:");
 
-        jLabelRecoveryPerguntaSecreta.setText("Pergunta Secreta");
-
         jLabelRecoveryResposta.setText("Resposta:");
 
         jButtonRecoveryVoltar.setText("Voltar");
+        jButtonRecoveryVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRecoveryVoltarActionPerformed(evt);
+            }
+        });
 
         jButtonRecoveryVerificar.setText("Verificar");
 
@@ -76,22 +78,19 @@ public class RecuperarSenha extends javax.swing.JFrame {
                         .addGap(96, 96, 96)
                         .addComponent(jLabelRecoveryEmail))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabelRecoveryPerguntaSecreta))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jButtonRecoveryVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonRecoveryVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(36, 36, 36)
-                            .addComponent(jLabelRecoveryResposta)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextFieldRecoveryResposta, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jButtonRecoveryVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(145, 145, 145)
+                        .addComponent(jButtonRecoveryVerificar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(70, 70, 70)
-                        .addComponent(jLabelRecoveryLogo)))
+                        .addComponent(jLabelRecoveryLogo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(137, 137, 137)
+                        .addComponent(jLabelRecoveryResposta))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jTextFieldRecoveryResposta, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -108,11 +107,9 @@ public class RecuperarSenha extends javax.swing.JFrame {
                     .addComponent(jTextFieldRecoveryDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelRecoveryDataNascimento))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelRecoveryPerguntaSecreta)
+                .addComponent(jLabelRecoveryResposta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelRecoveryResposta)
-                    .addComponent(jTextFieldRecoveryResposta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTextFieldRecoveryResposta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonRecoveryVoltar)
@@ -122,6 +119,12 @@ public class RecuperarSenha extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonRecoveryVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRecoveryVoltarActionPerformed
+        Login voltar = new Login();
+        voltar.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButtonRecoveryVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,7 +167,6 @@ public class RecuperarSenha extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelRecoveryDataNascimento;
     private javax.swing.JLabel jLabelRecoveryEmail;
     private javax.swing.JLabel jLabelRecoveryLogo;
-    private javax.swing.JLabel jLabelRecoveryPerguntaSecreta;
     private javax.swing.JLabel jLabelRecoveryResposta;
     private javax.swing.JTextField jTextFieldRecoveryDataNascimento;
     private javax.swing.JTextField jTextFieldRecoveryEmail;

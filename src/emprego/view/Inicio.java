@@ -28,9 +28,9 @@ import javax.swing.border.CompoundBorder;
 public class Inicio extends javax.swing.JFrame {
 
     Usuario usuariologado = new Usuario();
-    List<Profissional> listadeprofissionais = new ArrayList<>();
-    List<Usuario> listaUsuarios = new ArrayList<>();
-
+    List<Profissional> listaTabelaProfissional = new ArrayList<>();
+    List<Profissional> listaisUsuario = new ArrayList<>();
+    List<Profissional> listaFinal = new ArrayList<>();
     /**
      * Creates new form Inicio
      */
@@ -43,14 +43,18 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     public Inicio(Usuario usuario) {
-        initComponents();
-        this.setLocationRelativeTo(null);
-        this.setTitle("Empre GO - Início");
-        jMenuCompletarCadastro.setBorderPainted(false);
-        this.usuariologado = usuario;
-        jLabelNomeUsuario.setText(usuariologado.getNome());
-        jLabelDataUltimoLogin.setText(String.valueOf(usuariologado.getUltimologin()));
-
+      
+            initComponents();
+            this.setLocationRelativeTo(null);
+            this.setTitle("Empre GO - Início");
+            jMenuCompletarCadastro.setBorderPainted(false);
+            this.usuariologado = usuario;
+            jLabelNomeUsuario.setText(usuariologado.getNome());
+            jLabelDataUltimoLogin.setText(String.valueOf(usuariologado.getUltimologin()));
+            Banco listagem = new Banco();
+            this.listaTabelaProfissional = listagem.listarTabelaProfissional();
+            this.listaisUsuario = listagem.listarIsUsuario();
+            this.listaFinal = listagem.montagemdoProfissional(listaTabelaProfissional, listaisUsuario);
     }
 
     /**
@@ -93,11 +97,6 @@ public class Inicio extends javax.swing.JFrame {
                 formComponentShown(evt);
             }
         });
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
-            }
-        });
 
         jLabelInicioLogo.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
         jLabelInicioLogo.setText("Empre GO");
@@ -108,11 +107,6 @@ public class Inicio extends javax.swing.JFrame {
         jLabelBoasVindas.setText("Seja Bem Vindo:");
 
         jLabelNomeUsuario.setFont(new java.awt.Font("DejaVu Serif", 1, 12)); // NOI18N
-        jLabelNomeUsuario.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                jLabelNomeUsuarioComponentShown(evt);
-            }
-        });
 
         jListEventosRecentes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -133,21 +127,9 @@ public class Inicio extends javax.swing.JFrame {
         jMenuCompletarCadastro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
         jMenuCompletarCadastro.setText("Completar Perfil");
         jMenuCompletarCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jMenuCompletarCadastro.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenuCompletarCadastroMenuSelected(evt);
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-        });
         jMenuCompletarCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenuCompletarCadastroMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jMenuCompletarCadastroMouseEntered(evt);
             }
         });
         jMenuCompletarCadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -255,8 +237,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelEventosRecentes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelBoasVindas)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelBoasVindas, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabelNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,38 +268,36 @@ public class Inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Por favor, complete seu cadastro.");
             jMenuCompletarCadastro.setBorderPainted(true);
             jMenuCompletarCadastro.setVisible(true);
+             DefaultListModel modelList = new DefaultListModel();
+        
+        for(Profissional  profissional: listaFinal){
+            modelList.addElement(profissional.toString());
+        }
+        jListEventosRecentes.setModel(modelList);
+            
         } else {
-            jMenuCompletarCadastro.setBorderPainted(false);
-            jMenuCompletarCadastro.setEnabled(false);
-            jMenuCompletarCadastro.setVisible(false);
+            
+                jMenuCompletarCadastro.setBorderPainted(false);
+                jMenuCompletarCadastro.setEnabled(false);
+                jMenuCompletarCadastro.setVisible(false);
+               DefaultListModel modelList = new DefaultListModel();
+        
+        for(Profissional  profissional: listaFinal){
+            modelList.addElement(profissional.toString());
+        }
+        jListEventosRecentes.setModel(modelList);
+             
         }
 
 
     }//GEN-LAST:event_formComponentShown
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-
-
-    }//GEN-LAST:event_formWindowActivated
-
-    private void jLabelNomeUsuarioComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jLabelNomeUsuarioComponentShown
-
-             }//GEN-LAST:event_jLabelNomeUsuarioComponentShown
-
-    private void jMenuCompletarCadastroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroMouseEntered
-
-    }//GEN-LAST:event_jMenuCompletarCadastroMouseEntered
-
     private void jMenuCompletarCadastroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroMouseClicked
 
-        Cadastro perfil = new Cadastro();
+        Cadastro perfil = new Cadastro(usuariologado);
         perfil.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuCompletarCadastroMouseClicked
-
-    private void jMenuCompletarCadastroMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroMenuSelected
-
-    }//GEN-LAST:event_jMenuCompletarCadastroMenuSelected
 
     private void jMenuPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuPerfilMouseClicked
 
@@ -331,50 +311,50 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jMenuItemEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditarActionPerformed
         try {
-            Perfil perfil = new Perfil();
-
             Banco completar = new Banco();
-            if (Banco.isUsuario == true) {
-                perfil.completarUsuario(completar.montarUsuario());
-
+            if (usuariologado.getIsUsuario() != 0) {
+                Perfil perfil = new Perfil();
+                Profissional profissional = completar.montarProfissional(usuariologado.getIdUsuario());
+                perfil.completar(usuariologado, profissional);
                 perfil.setVisible(true);
                 this.dispose();
             } else {
-                perfil.completar(completar.montarUsuario(), completar.montarProfissional());
-
+                Perfil perfil = new Perfil(usuariologado);
                 perfil.setVisible(true);
                 this.dispose();
-            }
+                           }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jMenuItemEditarActionPerformed
 
     private void jMenuItemVisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVisualizarActionPerformed
-        try {
-            Perfil perfil = new Perfil();
-
+       
+           try {
             Banco completar = new Banco();
-            if (Banco.isUsuario == true) {
-                perfil.completarUsuario(completar.montarUsuario());
-
+            if (usuariologado.getIsUsuario() != 0) {
+                Perfil perfil = new Perfil();
+                Profissional profissional = completar.montarProfissional(usuariologado.getIdUsuario());
+                perfil.completar(usuariologado, profissional);
+                perfil.desativarCampos();
                 perfil.setVisible(true);
                 this.dispose();
             } else {
-                perfil.completar(completar.montarUsuario(), completar.montarProfissional());
-
+                Perfil perfil = new Perfil(usuariologado);
+                perfil.desativarCampos();
                 perfil.setVisible(true);
                 this.dispose();
-            }
+                           }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
+         
     }//GEN-LAST:event_jMenuItemVisualizarActionPerformed
 
     private void jListEventosRecentesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListEventosRecentesMouseClicked
-        if (listaUsuarios.size() > 0) {
+        if (listaFinal.size() > 0) {
             if (!javax.swing.SwingUtilities.isRightMouseButton(evt) && !javax.swing.SwingUtilities.isMiddleMouseButton(evt)) {
-                try {
+               
                     //javax.swing.SwingUtilities.isMiddleMouseButton(evt)){
                     String Profissional = jListEventosRecentes.getSelectedValue();
                     int escolha = Integer.valueOf(JOptionPane.showInputDialog("Selecione uma opção:\n1- Visualizar Perfil\n2- Solicitar serviço\n0- Cancelar"));
@@ -384,30 +364,17 @@ public class Inicio extends javax.swing.JFrame {
                             Banco ajuda = new Banco();
                             Usuario auxiliar = null;
                             Perfil visualizar = new Perfil();
-                            for (int i = 0; i < listaUsuarios.size(); i++) {
-                                if (listaUsuarios.get(i).getIdUsuario() == codigo) {
-                                    auxiliar = listaUsuarios.get(i);
+                            for (int i = 0; i < listaFinal.size(); i++) {
+                                if (listaFinal.get(i).getIdUsuario() == codigo) {
+                                    auxiliar = listaFinal.get(i);
                                 }
                             }
-                            listadeprofissionais = ajuda.listaprofissionais();
-                            visualizar.completar(auxiliar, ajuda.procuraProfissional(listadeprofissionais, codigo));
-                            visualizar.desativarCampos();
-                            visualizar.setVisible(true);
+                            
                             this.dispose();
                             break;
                         case 2:
                             int codigoProfissional = getCod(Profissional);
-                            Banco ajudaBanco = new Banco();
-                            Usuario usuario = null;
-
-                            for (int i = 0; i < listaUsuarios.size(); i++) {
-                                if (listaUsuarios.get(i).getIdUsuario() == codigoProfissional) {
-                                    usuario = listaUsuarios.get(i);
-                                }
-                            }
-                            listadeprofissionais = ajudaBanco.listaprofissionais();
-                            Solicitacao solicitar = new Solicitacao(usuario);
-                            solicitar.setVisible(true);
+                            
                             this.dispose();
 
                             break;
@@ -417,37 +384,20 @@ public class Inicio extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "Digite uma opção válida.");
                             break;
                     }
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-                }
+               
             }
         } else {
             JOptionPane.showMessageDialog(null, "No momento ainda não existe profissional cadastrado.");
-        }
+     
 
     }//GEN-LAST:event_jListEventosRecentesMouseClicked
-
+    }
     private void jMenuCompletarCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCompletarCadastroActionPerformed
-        try {
-            Perfil perfil = new Perfil();
-
-            Banco completar = new Banco();
-            if (Banco.isUsuario == true) {
-                perfil.completarUsuario(completar.montarUsuario());
-                perfil.desativarCampos();
-                perfil.setVisible(true);
-                this.dispose();
-            } else {
-                perfil.completar(completar.montarUsuario(), completar.montarProfissional());
-                perfil.desativarCampos();
-                perfil.setVisible(true);
-                this.dispose();
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
+            Cadastro completar = new Cadastro(usuariologado);
+            completar.setVisible(true);
+            this.dispose();
+       
     }//GEN-LAST:event_jMenuCompletarCadastroActionPerformed
 
     /**

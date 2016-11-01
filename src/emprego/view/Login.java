@@ -26,6 +26,7 @@ public class Login extends javax.swing.JFrame {
 
     private ListaUsuarios listausuarios;
     List<Usuario> listadeusuarios = new ArrayList<>();
+    private String campovazio = "Por favor, preencha todos os campos.";
 
     public Login() {
         initComponents();
@@ -235,22 +236,26 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCriarContaActionPerformed
-        try {
-            Banco cadastro = new Banco();
-            String nome = jTextFieldInicioNome.getText();
-            String email = jTextFieldInicioEmail.getText();
-            String senha = jTextFieldInicioSenha.getText();
-            if (cadastro.Cadastro(nome, email, senha)) {
-                JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso.");
-                limparCamposCadastro();
-            } else {
-                JOptionPane.showMessageDialog(null, "Não foi possível concluir teu cadastro. Verifiuqe tua conexão com o banco e tente novamente.");
-                limparCamposCadastro();
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if(jTextFieldInicioNome.getText().equals("") || jTextFieldInicioEmail.getText().equals("") || jTextFieldInicioSenha.getText().equals("")){
+            
+            JOptionPane.showMessageDialog(null, campovazio);
+        }else{
+            try {
+                String nome = jTextFieldInicioNome.getText();
+                String email = jTextFieldInicioEmail.getText();
+                String senha = jTextFieldInicioSenha.getText();
 
+                Banco cadastrar = new Banco();
+                if(!cadastrar.Cadastro(nome, email, senha)){
+                    JOptionPane.showMessageDialog(null,"Não foi possível concluir o cadastro no momento, verifique se as configurações estão corretas e tente novamente.\nCaso continue ocorrendo o erro consulte o manual.");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Cadastro concluído com sucesso. Faça login ao lado.");
+                    limparCamposCadastro();
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex+"\nVerifique as configurações do servidor Mysql e sua conexão com o Banco de dados.");
+            }
+        }
     }//GEN-LAST:event_jButtonCriarContaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

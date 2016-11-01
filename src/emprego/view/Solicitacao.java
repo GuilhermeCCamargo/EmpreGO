@@ -18,15 +18,17 @@ import javax.swing.JOptionPane;
  */
 public class Solicitacao extends javax.swing.JFrame {
     
-    Usuario profissional;
+    Usuario usuariologado;
+    Profissional profissional;
     int codigoProfissional;
     /**
      * Creates new form Solicitacao
      */
-    public Solicitacao(Usuario usuario) {
+    public Solicitacao(Profissional profissional,Usuario usuario) {
         initComponents();
-     this.profissional = usuario;
-     this.codigoProfissional = usuario.getIdUsuario();
+     this.profissional = profissional;
+     this.usuariologado = usuario;
+     this.codigoProfissional = codigoProfissional;
      jLabelEmaildoProfissional.setText(profissional.getEmail());
      jLabelNomeProfissional.setText(profissional.getNome());
      jLabelTelefoneProfissional.setText(String.valueOf(profissional.getTelefone()));
@@ -163,7 +165,7 @@ public Solicitacao() {
             Banco solicitar = new Banco();
             String descricao = jTextAreaDescricaoServico.getText();
             
-            if(solicitar.contratarProfissional(codigoProfissional, descricao)){
+            if(solicitar.contratarProfissional(codigoProfissional, descricao, usuariologado.getIdUsuario())){
             JOptionPane.showMessageDialog(null,"Solicitação enviada, aguarde contato do profissional.");
             }else{
                 JOptionPane.showMessageDialog(null,"Não foi possível solicitar o serviço. Verifique sua conexão com o banco e tente Novamente.");
