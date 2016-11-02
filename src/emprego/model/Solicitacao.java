@@ -5,22 +5,24 @@
  */
 package emprego.model;
 
+import java.sql.Date;
+
 /**
  *
  * @author gcamargo
  */
 public class Solicitacao {
-    
+    private int idsolicitacao;
     private int idprofissional;
     private int idsolicitante;
     private String Descricao;
     private int dataInicio;//Data que o profissional aceita a solicitacao
-    private int dataPedido;//data do pedido de servico
+    private Date dataPedido;//data do pedido de servico
     private int resposta;//resposta do profissional ao receber uma solicitacao de servico
     private int avaliacao;//disponivel apenas apos o termino do servico
     private int dataFim;
     private int acabado;//valor sera 0, 1 ou 2. 0 = acabado, 1=nao acabado 
-
+    private int ciente;
     /**
      * @return the idprofissional
      */
@@ -80,14 +82,14 @@ public class Solicitacao {
     /**
      * @return the dataPedido
      */
-    public int getDataPedido() {
+    public Date getDataPedido() {
         return dataPedido;
     }
 
     /**
      * @param dataPedido the dataPedido to set
      */
-    public void setDataPedido(int dataPedido) {
+    public void setDataPedido(Date dataPedido) {
         this.dataPedido = dataPedido;
     }
 
@@ -145,6 +147,34 @@ public class Solicitacao {
      */
     public void setAcabado(int acabado) {
         this.acabado = acabado;
+    }
+
+    /**
+     * @return the idsolicitacao
+     */
+    public int getIdsolicitacao() {
+        return idsolicitacao;
+    }
+
+    /**
+     * @param idsolicitacao the idsolicitacao to set
+     */
+    public void setIdsolicitacao(int idsolicitacao) {
+        this.idsolicitacao = idsolicitacao;
+    }
+
+    /**
+     * @return the ciente
+     */
+    public int getCiente() {
+        return ciente;
+    }
+
+    /**
+     * @param ciente the ciente to set
+     */
+    public void setCiente(int ciente) {
+        this.ciente = ciente;
     }
     
 }

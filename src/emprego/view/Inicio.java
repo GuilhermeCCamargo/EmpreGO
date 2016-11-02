@@ -7,19 +7,13 @@ package emprego.view;
 
 import emprego.Banco;
 import emprego.model.Profissional;
+import emprego.model.Solicitacao;
 import emprego.model.Usuario;
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.border.CompoundBorder;
 
 /**
  *
@@ -31,6 +25,7 @@ public class Inicio extends javax.swing.JFrame {
     List<Profissional> listaTabelaProfissional = new ArrayList<>();
     List<Profissional> listaisUsuario = new ArrayList<>();
     List<Profissional> listaFinal = new ArrayList<>();
+    List<Solicitacao> listaSolicitacoes = new ArrayList<>();
 
     /**
      * Creates new form Inicio
@@ -51,12 +46,20 @@ public class Inicio extends javax.swing.JFrame {
         jMenuCompletarCadastro.setBorderPainted(false);
         this.usuariologado = usuario;
         Banco listagem = new Banco();
-
+        this.listaSolicitacoes = listagem.verificaSolicitacao(usuariologado.getIdUsuario());
         jLabelNomeUsuario.setText(usuariologado.getNome());
         jLabelDataUltimoLogin.setText(String.valueOf(usuariologado.getUltimologin()));
         this.listaTabelaProfissional = listagem.listarTabelaProfissional();
         this.listaisUsuario = listagem.listarIsUsuario();
         this.listaFinal = listagem.montagemdoProfissional(listaTabelaProfissional, listaisUsuario);
+        if (listaSolicitacoes != null) {
+            jMenuSolicitacoes.setBorderPainted(true);
+            jMenuSolicitacoes.setForeground(Color.GREEN);
+            JOptionPane.showMessageDialog(null, "Você tem notificações.");
+
+        } else {
+            jMenuSolicitacoes.setBorderPainted(false);
+        }
     }
 
     /**
@@ -126,7 +129,8 @@ public class Inicio extends javax.swing.JFrame {
         jLabelUltimoLogin.setFont(new java.awt.Font("Dialog", 0, 11)); // NOI18N
         jLabelUltimoLogin.setText("Último Login em:");
 
-        jMenuCompletarCadastro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        jMenuCompletarCadastro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 255, 51)));
+        jMenuCompletarCadastro.setForeground(new java.awt.Color(0, 0, 0));
         jMenuCompletarCadastro.setText("Completar Perfil");
         jMenuCompletarCadastro.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenuCompletarCadastro.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -141,6 +145,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuCompletarCadastro);
 
+        jMenuPerfil.setForeground(new java.awt.Color(0, 0, 0));
         jMenuPerfil.setText("Perfil");
         jMenuPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -169,10 +174,23 @@ public class Inicio extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuPerfil);
 
+        jMenuSolicitacoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 102)));
+        jMenuSolicitacoes.setForeground(new java.awt.Color(0, 0, 0));
         jMenuSolicitacoes.setText("Solicitações");
         jMenuSolicitacoes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenuSolicitacoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSolicitacoesMouseClicked(evt);
+            }
+        });
+        jMenuSolicitacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuSolicitacoesActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenuSolicitacoes);
 
+        jMenuConta.setForeground(new java.awt.Color(0, 0, 0));
         jMenuConta.setText("Conta");
         jMenuConta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenuConta.add(jSeparator1);
@@ -344,7 +362,7 @@ public class Inicio extends javax.swing.JFrame {
                         break;
                     case 2:
                         int codigoProfissional = getCod(Profissional);
-                        Solicitacao solicitar = new Solicitacao(usuariologado,listaFinal,codigoProfissional);
+                        FrameSolicitacao solicitar = new FrameSolicitacao(usuariologado, listaFinal, codigoProfissional,listaSolicitacoes);
                         solicitar.setVisible(true);
                         this.dispose();
 
@@ -370,6 +388,18 @@ public class Inicio extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_jMenuCompletarCadastroActionPerformed
+
+    private void jMenuSolicitacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSolicitacoesActionPerformed
+        SolicitacoesRecebidas solicitacoes = new SolicitacoesRecebidas  (listaSolicitacoes, usuariologado);
+        solicitacoes.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuSolicitacoesActionPerformed
+
+    private void jMenuSolicitacoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSolicitacoesMouseClicked
+        SolicitacoesRecebidas solicitacoes = new SolicitacoesRecebidas  (listaSolicitacoes, usuariologado);
+        solicitacoes.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuSolicitacoesMouseClicked
 
     /**
      * @param args the command line arguments

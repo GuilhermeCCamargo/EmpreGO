@@ -6,6 +6,7 @@
 package emprego;
 
 import emprego.model.Profissional;
+import emprego.model.Solicitacao;
 import emprego.model.Usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -456,4 +457,45 @@ public class Banco implements InterfaceBanco {
             return profissionalidentificado;
         }
     }
+    
+    public List<Solicitacao> verificaSolicitacao(int idUsuariologado){
+        int idUsuario = idUsuariologado;
+        try {
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/EmpreGO?zeroDateTimeBehavior=convertToNull", "root", "e2n5b4");
+            List<Solicitacao> listaSolicitacao = new ArrayList<>();
+            java.sql.Statement st = conn.createStatement();
+            String sqlprof = "select * from SolicitacaoServico  where idProfissional ='"+idUsuario+"';";
+            ResultSet res;
+            res = st.executeQuery(sqlprof);
+            
+            if (res != null) {
+               res.next();
+                do {
+                    Solicitacao solicitacao = new Solicitacao();
+                    solicitacao.setIdsolicitacao((res.getInt(1)));
+                    solicitacao.setIdprofissional((res.getInt(2)));
+                    solicitacao.setIdsolicitante((res.getInt(3)));
+                    solicitacao.setDescricao((res.getString(4)));
+                    solicitacao.setDataPedido((res.getDate(5)));
+                    solicitacao.setCiente((res.getInt(6)));
+                    listaSolicitacao.add(solicitacao);
+                } while (res.next() != false);
+                return listaSolicitacao;
+            } else {
+                return null;
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex+"\nErro SQL");
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(Banco.class.getName()).log(Level.SEVERE, null, ex+"Erro sql");
+            return null;
+        }
+        
+        
+        
+    }
+    
 }

@@ -7,6 +7,7 @@ package emprego.view;
 
 import emprego.Banco;
 import emprego.model.Profissional;
+import emprego.model.Solicitacao;
 import emprego.model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,33 +19,44 @@ import javax.swing.JOptionPane;
  *
  * @author gcamargo
  */
-public class Solicitacao extends javax.swing.JFrame {
+public class FrameSolicitacao extends javax.swing.JFrame {
+
+    List<Solicitacao> listaSolicitacao = new ArrayList<>();
     List<Profissional> listaprofissional = new ArrayList<>();
     Usuario usuariologado;
     Profissional profissional;
     int codigoProfissional;
+
     /**
      * Creates new form Solicitacao
+     * @param usuario //Usuario logado (quem chamou o metodo)
+     * @param listaprofissional //lista de Profissionais cadastrados
+     * @param codigo //codigo do usuario logado (desnecessario)
+     * @param listasolicitacao //Lista de Solicitacoes registradas no banco
      */
-    public Solicitacao(Usuario usuario,List<Profissional> listaprofissional,int codigo) {
+    public FrameSolicitacao(Usuario usuario, List<Profissional> listaprofissional, int codigo, List<Solicitacao> listasolicitacao) {
         initComponents();
-     this.listaprofissional = listaprofissional;
-     this.usuariologado = usuario;
-     this.codigoProfissional = codigo;
-     Banco montarprofissional = new Banco();
-     Profissional profissionall = montarprofissional.procuraProfissional(listaprofissional, codigoProfissional);
-     this.profissional = profissionall;
-     jLabelEmaildoProfissional.setText(profissional.getEmail());
-     jLabelNomeProfissional.setText(profissional.getNome());
-     jLabelTelefoneProfissional.setText(String.valueOf(profissional.getTelefone()));    
-       
-        
+        this.listaSolicitacao = listasolicitacao;
+        this.listaprofissional = listaprofissional;
+        this.usuariologado = usuario;
+        this.codigoProfissional = codigo;
+        Banco montarprofissional = new Banco();
+        Profissional profissionall = montarprofissional.procuraProfissional(listaprofissional, codigoProfissional);
+        this.profissional = profissionall;
+        jLabelEmaildoProfissional.setText(profissional.getEmail());
+        jLabelNomeProfissional.setText(profissional.getNome());
+        jLabelTelefoneProfissional.setText(String.valueOf(profissional.getTelefone()));
+
     }
-public Solicitacao() {
-      initComponents();
-     
-        
+
+    /**
+     *Construtor padrao
+     */
+    public FrameSolicitacao() {
+        initComponents();
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -162,23 +174,23 @@ public Solicitacao() {
         Inicio voltar = new Inicio(usuariologado);
         voltar.setVisible(true);
         this.dispose();
-        
+
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSolicitarActionPerformed
         try {
             Banco solicitar = new Banco();
             String descricao = jTextAreaDescricaoServico.getText();
-            
-            if(solicitar.contratarProfissional(codigoProfissional, descricao, usuariologado.getIdUsuario())){
-            JOptionPane.showMessageDialog(null,"Solicitação enviada, aguarde contato do profissional.");
-            }else{
-                JOptionPane.showMessageDialog(null,"Não foi possível solicitar o serviço. Verifique sua conexão com o banco e tente Novamente.");
+
+            if (solicitar.contratarProfissional(codigoProfissional, descricao, usuariologado.getIdUsuario())) {
+                JOptionPane.showMessageDialog(null, "Solicitação enviada, aguarde contato do profissional.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível solicitar o serviço. Verifique sua conexão com o banco e tente Novamente.");
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Solicitacao.class.getName()).log(Level.SEVERE, null, "Verifique as configurações do Banco de dados.");
+            Logger.getLogger(FrameSolicitacao.class.getName()).log(Level.SEVERE, null, "Verifique as configurações do Banco de dados.");
         }
-        
+
     }//GEN-LAST:event_jButtonSolicitarActionPerformed
 
     /**
@@ -198,20 +210,21 @@ public Solicitacao() {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Solicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameSolicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Solicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameSolicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Solicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameSolicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Solicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameSolicitacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Solicitacao().setVisible(true);
+                new FrameSolicitacao().setVisible(true);
             }
         });
     }
